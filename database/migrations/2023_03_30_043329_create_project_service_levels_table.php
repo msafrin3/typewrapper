@@ -13,7 +13,22 @@ return new class extends Migration
     {
         Schema::create('project_service_levels', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->text('description');
+
+            $table->integer('irt_hour')->default(0);
+            $table->integer('irt_minute')->default(0);
+            $table->double('irt_penalty', 8, 2)->default(0.00);
+
+            $table->integer('ort_hour')->default(0);
+            $table->integer('ort_minute')->default(0);
+            $table->double('ort_penalty', 8, 2)->default(0.00);
+
+            $table->integer('prt_hour')->default(0);
+            $table->integer('prt_minute')->default(0);
+            $table->double('prt_penalty', 8, 2)->default(0.00);
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 

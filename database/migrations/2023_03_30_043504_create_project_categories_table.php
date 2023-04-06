@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('project_categories', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('project_id')->constrained('projects');
+            $table->string('name');
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 
