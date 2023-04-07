@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('project_inventories', function (Blueprint $table) {
+        Schema::create('setting_organization_categories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('project_id')->constrained('projects');
-            $table->foreignId('project_category_id')->constrained('project_categories');
+            $table->foreignId('organization_id')->constrained('setting_organizations');
             $table->string('name');
-            $table->string('model');
-            $table->string('serial_number');
-            $table->text('description')->nullable();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
         });
@@ -29,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('project_inventories');
+        Schema::dropIfExists('setting_organization_categories');
     }
 };

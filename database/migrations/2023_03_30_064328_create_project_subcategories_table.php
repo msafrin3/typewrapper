@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('project_subcategories', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('project_id')->constrained('projects');
+            $table->foreignId('project_category_id')->constrained('project_categories');
+            $table->string('name');
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 
