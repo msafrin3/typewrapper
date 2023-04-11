@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('setting_organization_subcategories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('organization_id')->constrained('setting_organizations');
-            $table->foreignId('organization_category_id')->constrained('setting_organization_categories');
+            $table->foreignId('category_id')->constrained('setting_organization_categories');
             $table->string('name');
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
