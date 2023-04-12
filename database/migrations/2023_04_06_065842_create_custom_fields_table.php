@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('custom_fields', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('organization_id')->constrained('organizations');
             $table->string('table_name');
             $table->integer('table_id');
             $table->string('field_type');

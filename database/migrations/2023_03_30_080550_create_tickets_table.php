@@ -19,11 +19,11 @@ return new class extends Migration
             $table->enum('ticket_type', ['Incident', 'Service Request']);
             $table->foreignId('project_id')->constrained('projects');
             $table->foreignId('severity_id')->constrained('project_severities');
-            $table->foreignId('organization_id')->constrained('setting_organizations');
-            $table->timestamp('received_at');
-            $table->timestamp('responded_at');
-            $table->foreignId('organization_category_id')->constrained('setting_organization_categories');
-            $table->foreignId('organization_subcategory_id')->constrained('setting_organization_subcategories');
+            $table->foreignId('organization_id')->constrained('organizations');
+            $table->timestamp('received_at')->nullable();
+            $table->timestamp('responded_at')->nullable();
+            $table->foreignId('organization_category_id')->constrained('organization_categories');
+            $table->foreignId('organization_subcategory_id')->constrained('organization_subcategories');
             $table->foreignId('created_by_id')->constrained('users');
             $table->foreignId('assigned_to_id')->nullable()->constrained('users');
             $table->foreignId('customer_id')->constrained('users');

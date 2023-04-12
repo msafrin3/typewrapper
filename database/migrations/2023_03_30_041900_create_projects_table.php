@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('code');
             $table->string('name');
             $table->text('description');
-            $table->foreignId('organization_id')->constrained('setting_organizations');
+            $table->foreignId('organization_id')->constrained('organizations');
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
         });
