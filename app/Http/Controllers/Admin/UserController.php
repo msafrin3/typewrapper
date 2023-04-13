@@ -16,11 +16,15 @@ class UserController extends Controller
     {
         //
         $users = User::query()
+            ->when($request->input('search'), function($query, $search) {
+                $query->orWhere('name', 'like', '%' . $search . '%');
+                $query->orWhere('email', 'like', '%' . $search . '%');
+            })
             ->with('roles')
             ->paginate(10)
             ->withQueryString();
 
-        return Inertia::render('Admin/User/Index', ['users' => $users]);
+        return Inertia::render('Admin/User/Index', ['users' => $users, 'filters' => $request->only('filters')]);
     }
 
     /**
