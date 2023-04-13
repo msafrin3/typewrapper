@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -41,6 +43,8 @@ Route::middleware('auth')->group(function () {
     // ADMINISTRATOR
     Route::prefix('admin')->as('admin.')->group(function() {
         Route::resource('user', UserController::class);
+        Route::resource('role', RoleController::class);
+        Route::resource('permission', PermissionController::class);
     });
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -27,7 +27,16 @@ let props = defineProps({
     <AuthenticatedLayout>
         <ContentHeader title="User Management" :breadcrumbs="breadcrumbs" />
 
+        <div class="mb-3">
+            <a href="#" class="btn btn-success">
+                <i class="ri-add-circle-fill fs-15 align-bottom me-1"></i> Add New
+            </a>
+        </div>
+
         <div class="card">
+            <div class="card-header">
+                <h3 class="card-title mb-0">List User</h3>
+            </div>
             <div class="card-body">
                 <Table :data-route="route('admin.user.index')" :filters="filters" :data="users">
                     <template #thead>
@@ -45,7 +54,16 @@ let props = defineProps({
                             <td>{{ user.email }}</td>
                             <td></td>
                             <td>{{ user.created_at }}</td>
-                            <td></td>
+                            <td>
+                                <div class="d-flex flex-wrap gap-2">
+                                    <a href="#" class="link-success">
+                                        <i class="ri-edit-2-line fs-17"></i>
+                                    </a>
+                                    <a href="#" class="link-danger">
+                                        <i class="ri-delete-bin-line fs-17"></i>
+                                    </a>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </Table>

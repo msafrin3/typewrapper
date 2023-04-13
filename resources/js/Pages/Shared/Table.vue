@@ -36,7 +36,7 @@ watch(search, value => {
                 <button type="buttton" class="btn btn-outline-secondary" v-if="search" @click="(search = null)"><i class="fa fa-times-circle fa-fw"></i> Reset</button>
             </div>
         </div>
-        <table class="table table-striped">
+        <table class="table table-striped mt-3">
             <thead>
                 <slot name="thead" />
             </thead>
@@ -57,6 +57,9 @@ watch(search, value => {
                 class="btn"
                 :class="{ 'disabled': !link.url, 'btn-primary': link.active, 'btn-light': !link.active }"
             />
+        </div>
+        <div>
+            {{ 'Showing ' + data.from + ' to ' + data.to + ' of ' + data.total + ' entries' }}
         </div>
     </div>
 </template>
