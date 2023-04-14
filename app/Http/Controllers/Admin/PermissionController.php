@@ -18,7 +18,7 @@ class PermissionController extends Controller
             ->when($request->input('search'), function($query, $search) {
                 $query->where('name', 'like', '%' . $search . '%');
             })
-            ->paginate(10)
+            ->paginate(20)
             ->withQueryString();
 
         return Inertia::render('Admin/Permission/Index', ['permissions' => $permissions, 'filters' => $request->only('search')]);
@@ -29,7 +29,7 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Admin/Permission/Create');
     }
 
     /**
@@ -37,7 +37,13 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|unique:permissions'
+        ]);
+
+        Permission::create(['name' => $request->input('name')]);
+
+        return redirect()->route('admin.permission.index')->with('success', 'Permission created.');
     }
 
     /**
@@ -51,24 +57,32 @@ class PermissionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Permission $permission)
     {
-        //
+        return Inertia::render('Admin/Permission/Edit', ['permission' => $permission]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Permission $permission)
     {
-        //
+        $request->validate([
+            'name' => 'required|unique:permissions,name,' . $permission->id
+        ]);
+
+        $permission->update(['name' => $request->input('name')]);
+
+        return redirect()->route('admin.permission.index')->with('success', 'Permission successfully updated.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Permission $permission)
     {
-        //
+        $permission->delete();
+
+        return back()->with('success', 'Permission Successfull Deleted.');
     }
 }

@@ -2,6 +2,7 @@
 import { reactive, ref, watch } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { Inertia } from '@inertiajs/inertia';
+import Pagination from '@/Pages/Shared/Pagination.vue';
 
 let props = defineProps({
     data: Object,
@@ -12,7 +13,7 @@ let props = defineProps({
 
 let search = ref(props.filters.search);
 watch(search, value => {
-    router.get('/admin/user', { search: value }, {
+    router.get(props.dataRoute, { search: value }, {
         preserveState: true,
         replace: true
     });
@@ -47,18 +48,8 @@ watch(search, value => {
             </tbody>
             <slot v-else />
         </table>
-        <div class="btn-group">
-            <Component 
-                v-for="link in links"
-                :key="link.id"
-                :is="link.url ? 'Link' : 'span'" 
-                :href="link.url" 
-                v-html="link.label" 
-                class="btn"
-                :class="{ 'disabled': !link.url, 'btn-primary': link.active, 'btn-light': !link.active }"
-            />
-        </div>
-        <div>
+        <Pagination :links="data.links" />
+        <div class="mt-3">
             {{ 'Showing ' + data.from + ' to ' + data.to + ' of ' + data.total + ' entries' }}
         </div>
     </div>

@@ -19,7 +19,7 @@ const props = defineProps({
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><Link :href="route('dashboard')">Home</Link></li>
                         <li v-for="breadcrumb in breadcrumbs" :key="breadcrumb" class="breadcrumb-item">
-                            <Link :href="breadcrumb.link" v-if="breadcrumb.active">{{ breadcrumb.title }}</Link>
+                            <Link :href="breadcrumb.link" v-if="!breadcrumb.active">{{ breadcrumb.title }}</Link>
                             <span v-else>{{ breadcrumb.title }}</span>
                         </li>
                         <!-- <li class="breadcrumb-item"><a href="javascript: void(0);">Pages</a></li>

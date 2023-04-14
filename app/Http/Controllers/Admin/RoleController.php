@@ -4,15 +4,24 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $roles = Role::query()
+            ->when($request->input('search'), function($query, $search) {
+                $query->where('name', 'like', '%' . $search . '%');
+            })
+            ->paginate(20)
+            ->withQueryString();
+
+        return Inertia::render('Admin/Role/Index', ['roles' => $roles, 'filters' => $request->only('search')]);
     }
 
     /**

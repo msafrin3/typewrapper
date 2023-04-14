@@ -509,6 +509,9 @@ $(window).resize(function() {
                                         <Link :href="route('admin.user.index')" class="nav-link" :class="{ 'active': $page.url.startsWith('/admin/user') }"> User Management </Link>
                                     </li>
                                     <li class="nav-item">
+                                        <Link :href="route('admin.role.index')" class="nav-link" :class="{ 'active': $page.url.startsWith('/admin/role') }">Role Management</Link>
+                                    </li>
+                                    <li class="nav-item">
                                         <Link :href="route('admin.permission.index')" class="nav-link" :class="{ 'active': $page.url.startsWith('/admin/permission') }"> Permission Management</Link>
                                     </li>
                                 </ul>
