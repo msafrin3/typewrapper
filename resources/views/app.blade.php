@@ -42,6 +42,7 @@
         <script src="{{ url('') }}/assets/libs/node-waves/waves.min.js"></script>
         <script src="{{ url('') }}/assets/libs/feather-icons/feather.min.js"></script>
         <script src="{{ url('') }}/assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
+        <script src="{{ url('') }}/assets/js/plugins.js></script>
 
         <!-- App js -->
         <script src="{{ url('') }}/assets/js/app.js"></script>
