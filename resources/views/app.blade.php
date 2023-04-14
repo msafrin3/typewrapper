@@ -21,6 +21,8 @@
         <link href="{{ url('') }}/assets/css/app.min.css" rel="stylesheet" type="text/css" />
         <!-- custom Css-->
         <link href="{{ url('') }}/assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+        <!-- Select2 -->
+        <!-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> -->
 
         @routes
         @vite([
@@ -42,13 +44,15 @@
         <script src="{{ url('') }}/assets/libs/node-waves/waves.min.js"></script>
         <script src="{{ url('') }}/assets/libs/feather-icons/feather.min.js"></script>
         <script src="{{ url('') }}/assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
-        <script src="{{ url('') }}/assets/js/plugins.js></script>
+        <!-- <script src="{{ url('') }}/assets/js/plugins.js"></script> -->
 
-        <!-- App js -->
-        <script src="{{ url('') }}/assets/js/app.js"></script>
+        <script src="" id="appScript"></script>
+        <!-- <script src="{{ url('') }}/assets/js/app.js"></script> -->
 
         <!-- password-addon init -->
         <script src="{{ url('') }}/assets/js/pages/password-addon.init.js"></script>
+        <!-- Select2 -->
+        <!-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> -->
     </body>
 
 </html>

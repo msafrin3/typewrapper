@@ -1,11 +1,14 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, getCurrentInstance } from 'vue';
 import { Link } from '@inertiajs/vue3'
 
 const showingNavigationDropdown = ref(false);
 
+const app = getCurrentInstance();
+
 onMounted(() => {
     checkWindowSize();
+    $("#appScript").attr('src', window.location.origin + '/assets/js/app.js');
 });
 
 const toggleSidebar = () => {

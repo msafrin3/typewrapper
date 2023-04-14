@@ -2,7 +2,7 @@
 import { Head, Link, router } from '@inertiajs/vue3';
 import ContentHeader from '@/Pages/Shared/ContentHeader.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { reactive } from 'vue';
+import { reactive, onMounted } from 'vue';
 import Swal from 'sweetalert2';
 
 const breadcrumbs = [
@@ -27,7 +27,8 @@ let props = defineProps({
 });
 
 let role = reactive({
-    name: null
+    name: null,
+    permissions: []
 });
 
 let submit = () => {
@@ -62,9 +63,12 @@ let submit = () => {
                             </div>
                             <div class="form-group mt-3">
                                 <label class="form-label">Select Permission(s)</label>
-                                <select class="form-control" multiple>
-                                    <option value="Choice 1" v-for="permission in permissions" :key="permission.id">{{ permission.name }}</option>
-                                </select>
+                                <div class="form-check mb-2" v-for="permission in permissions" :key="permission.id">
+                                    <input class="form-check-input" type="checkbox" :id="'formCheck' + permission.id" v-model="role.permissions">
+                                    <label class="form-check-label" :for="'formCheck' + permission.id">
+                                        {{ permission.name }}
+                                    </label>
+                                </div>
                             </div>
                         </div>
                         <div class="card-footer d-grid gap-2">
