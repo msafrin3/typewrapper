@@ -23,16 +23,25 @@ const breadcrumbs = [
 
 let props = defineProps({
     errors: Object,
-    permissions: Object
+    role: Object,
+    _permissions: Object
 });
 
-let role = reactive({
-    name: null,
+let e_role = reactive({
+    name: props.role.name,
     permissions: []
 });
 
+onMounted(() => {
+    props.role.permissions.forEach(function (value) {
+        e_role.permissions.push(value.id);
+        $("#formCheck" + value.id).prop("checked", true);
+    });
+    console.log(e_role);
+});
+
 let submit = () => {
-    router.post(route('admin.role.store'), role, {
+    router.put(route('admin.role.update', props.role), e_role, {
         onSuccess: (response) => {
             if (response.props.response.success) {
                 Swal.fire('Success!', response.props.response.succes, 'success');
@@ -58,14 +67,13 @@ let submit = () => {
                         <div class="card-body">
                             <div class="form-group">
                                 <label class="form-label">Role Name</label>
-                                <input type="text" class="form-control" placeholder="Enter Role Name" v-model="role.name">
+                                <input type="text" class="form-control" placeholder="Enter Role Name" v-model="e_role.name">
                                 <span class="text-danger" v-if="errors.name">{{ errors.name }}</span>
                             </div>
                             <div class="form-group mt-3">
                                 <label class="form-label">Select Permission(s)</label>
-                                <div class="form-check mb-2" v-for="permission in permissions" :key="permission.id">
-                                    <input class="form-check-input" type="checkbox" :id="'formCheck' + permission.id"
-                                        :value="permission.id" v-model="role.permissions">
+                                <div class="form-check mb-2" v-for="permission in _permissions" :key="permission.id">
+                                    <input class="form-check-input" type="checkbox" :id="'formCheck' + permission.id" :value="permission.id" v-model="e_role.permissions">
                                     <label class="form-check-label" :for="'formCheck' + permission.id">
                                         {{ permission.name }}
                                     </label>
