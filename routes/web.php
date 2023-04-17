@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
     // ADMINISTRATOR
     Route::prefix('admin')->as('admin.')->group(function() {
         Route::resource('user', UserController::class);
+        Route::post('/user/restore/{id}', [UserController::class, 'restore'])->name('user.restore');
         Route::resource('role', RoleController::class);
         Route::resource('permission', PermissionController::class);
     });

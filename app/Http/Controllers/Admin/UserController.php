@@ -21,7 +21,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         //
-        $users = User::query()
+        $users = User::withTrashed()
             ->when($request->input('search'), function($query, $search) {
                 $query->orWhere('name', 'like', '%' . $search . '%');
                 $query->orWhere('email', 'like', '%' . $search . '%');
@@ -66,21 +66,11 @@ class UserController extends Controller
             'password' => Hash::make($password)
         ]);
 
-        // assign role
-        if(count($request->input('roles')) > 0) {
-            foreach($request->input('roles') as $r) {
-                $role = Role::find($r);
-                $user->assignRole($role->name);
-            }
-        }
+        // sync role
+        $user->syncRoles($request->input('roles'));
 
-        // assign permission
-        if(count($request->input('permissions')) > 0) {
-            foreach($request->input('permissions') as $perm) {
-                $permission = Permission::find($perm);
-                $user->givePermissionTo($permission->name);
-            }
-        }
+        // sync permission
+        $user->syncPermissions($request->input('permissions'));
 
         // send the user information via email
         Mail::to($user->email)->queue(new CreateUser($user, $password));
@@ -99,24 +89,55 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        //
+        $roles = Role::all();
+        $permissions = Permission::all();
+
+        return Inertia::render('Admin/User/Edit', ['roles' => $roles, 'permissions' => $permissions, 'user' => $user->load(['roles', 'permissions'])]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $user)
     {
-        //
+        // request validation
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|unique:users,email,' . $user->id,
+            'roles' => 'required'
+        ]);
+
+        // create user object
+        $user->update([
+            'name' => $request->input('name'),
+            'email' => $request->input('email')
+        ]);
+
+        // sync role
+        $user->syncRoles($request->input('roles'));
+
+        // sync permission
+        $user->syncPermissions($request->input('permissions'));
+
+        return redirect()->route('admin.user.index')->with('success', 'User Successfully Update');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        return back()->with('success', 'User Successfull Deleted.');
+    }
+
+    public function restore($id)
+    {
+        User::withTrashed()->find($id)->restore();
+
+        return back()->with('success', 'User Successfully Restored.');
     }
 }
