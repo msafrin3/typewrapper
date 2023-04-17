@@ -22,6 +22,7 @@
     },
     "dependencies": {
         "@inertiajs/inertia": "^0.11.1",
+        "choices.js": "^10.2.0",
         "date-fns": "^2.29.3",
         "sweetalert2": "^11.7.3"
     }

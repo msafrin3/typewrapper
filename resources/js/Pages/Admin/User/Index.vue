@@ -3,6 +3,7 @@ import { Head, Link } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import ContentHeader from '@/Pages/Shared/ContentHeader.vue';
 import Table from '@/Pages/Shared/Table.vue';
+import { format } from 'date-fns';
 
 const breadcrumbs = [
     {
@@ -28,9 +29,9 @@ let props = defineProps({
         <ContentHeader title="User Management" :breadcrumbs="breadcrumbs" />
 
         <div class="mb-3">
-            <a href="#" class="btn btn-success">
+            <Link :href="route('admin.user.create')" class="btn btn-success">
                 <i class="ri-add-circle-fill fs-15 align-bottom me-1"></i> Add New
-            </a>
+            </Link>
         </div>
 
         <div class="card">
@@ -44,6 +45,7 @@ let props = defineProps({
                             <th>Name</th>
                             <th>E-Mail</th>
                             <th>Roles</th>
+                            <th>Permissions</th>
                             <th>Created At</th>
                             <th>Action</th>
                         </tr>
@@ -52,8 +54,17 @@ let props = defineProps({
                         <tr v-for="(user, index) in users.data" :key="user.id">
                             <td>{{ user.name }}</td>
                             <td>{{ user.email }}</td>
-                            <td></td>
-                            <td>{{ user.created_at }}</td>
+                            <td>
+                                <div class="d-flex flex-wrap gap-2">
+                                    <span class="badge badge-soft-secondary fs-11" v-for="role in user.roles">{{ role.name }}</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex flex-wrap gap-2">
+                                    <span class="badge badge-soft-secondary fs-11" v-for="permission in user.permissions">{{ permission.name }}</span>
+                                </div>
+                            </td>
+                            <td>{{ format(new Date(user.created_at), 'yyyy-MM-dd HH:mm:ss') }}</td>
                             <td>
                                 <div class="d-flex flex-wrap gap-2">
                                     <a href="#" class="link-success">
