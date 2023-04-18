@@ -4,6 +4,7 @@ import ContentHeader from '@/Pages/Shared/ContentHeader.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { reactive, onMounted } from 'vue';
 import Swal from 'sweetalert2';
+import MyChoices from '@/Pages/Shared/MyChoices.vue';
 
 const breadcrumbs = [
     {
@@ -40,6 +41,10 @@ let submit = () => {
         }
     });
 }
+
+let setPermissions = (payload) => {
+    role.permissions = payload;
+}
 </script>
 
 <template>
@@ -63,13 +68,9 @@ let submit = () => {
                             </div>
                             <div class="form-group mt-3">
                                 <label class="form-label">Select Permission(s)</label>
-                                <div class="form-check mb-2" v-for="permission in permissions" :key="permission.id">
-                                    <input class="form-check-input" type="checkbox" :id="'formCheck' + permission.id"
-                                        :value="permission.id" v-model="role.permissions">
-                                    <label class="form-check-label" :for="'formCheck' + permission.id">
-                                        {{ permission.name }}
-                                    </label>
-                                </div>
+                                <MyChoices id="selectpermission" placeholder="Select Permission" type="multiple" @get-value="setPermissions">
+                                    <option v-for="permission in permissions" :key="permission.id" :value="permission.id">{{ permission.name }}</option>
+                                </MyChoices>
                             </div>
                         </div>
                         <div class="card-footer d-grid gap-2">
