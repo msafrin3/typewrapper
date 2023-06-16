@@ -51,6 +51,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // DISASTER
+    Route::prefix('disaster')->as('disaster.')->group(function() {
+        Route::get('/', [App\Http\Controllers\DisasterController::class, 'index'])->name('index');
+        Route::get('/create', [App\Http\Controllers\DisasterController::class, 'create'])->name('create');
+        Route::post('/create', [App\Http\Controllers\DisasterController::class, 'store'])->name('store');
+        Route::get('/{disaster}/show', [App\Http\Controllers\DisasterController::class, 'show'])->name('show');
+        Route::get('/{disaster}/edit', [App\Http\Controllers\DisasterController::class, 'edit'])->name('edit');
+        Route::post('/{disaster}/edit', [App\Http\Controllers\DisasterController::class, 'update'])->name('update');
+        Route::delete('/{disaster}/delete', [App\Http\Controllers\DisasterController::class, 'destroy'])->name('destroy');
+    });
 });
 
 require __DIR__.'/auth.php';
