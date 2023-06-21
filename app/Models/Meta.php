@@ -9,6 +9,8 @@ class Meta extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name', 'display_name'];
+
     public function metaDatas()
     {
         return $this->hasMany(MetaData::class);

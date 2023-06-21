@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Meta;
 use Illuminate\Http\Request;
+use Illuminate\Support\Pluralizer;
 use Inertia\Inertia;
 
 class MetaController extends Controller
@@ -30,7 +31,7 @@ class MetaController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Admin/Meta/Create');
     }
 
     /**
@@ -38,7 +39,17 @@ class MetaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|unique:metas',
+            'display_name' => 'required'
+        ]);
+
+        Meta::create([
+            'name' => $request->input('name'),
+            'display_name' => $request->input('display_name')
+        ]);
+
+        return redirect()->route('admin.meta.index')->with('success', 'Meta Successful Created.');
     }
 
     /**
@@ -52,24 +63,37 @@ class MetaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Meta $metum)
     {
-        //
+        return Inertia::render('Admin/Meta/Edit', ['meta' => $metum]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Meta $metum)
     {
-        //
+        $request->validate([
+            'name' => 'required|unique:metas,name,' . $metum->id,
+            'display_name' => 'required'
+        ]);
+
+        $metum->update([
+            'name' => $request->input('name'),
+            'display_name' => $request->input('display_name')
+        ]);
+
+        return redirect()->route('admin.meta.index')->with('success', 'Meta Successful Updated.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Meta $metum)
     {
-        //
+        $metum->metaDatas()->delete();
+        $metum->delete();
+
+        return back()->with('success', 'Meta Successful Deleted.');
     }
 }
