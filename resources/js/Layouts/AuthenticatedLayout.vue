@@ -517,6 +517,21 @@ $(window).resize(function() {
                                     <li class="nav-item">
                                         <Link :href="route('admin.permission.index')" class="nav-link" :class="{ 'active': $page.url.startsWith('/admin/permission') }"> Permission Management</Link>
                                     </li>
+                                    <li class="nav-item">
+                                        <Link :href="route('admin.meta.index')" class="nav-link" :class="{ 'active': $page.url.startsWith('/admin/meta') }"> Meta Management</Link>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li> <!-- end Dashboard Menu -->
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#menusetting" data-bs-toggle="collapse" role="button" v-bind:aria-expanded="$page.url.startsWith('/setting')" aria-controls="menusetting">
+                                <i class="ri-settings-5-line"></i> <span>Settings</span>
+                            </a>
+                            <div class="collapse menu-dropdown" :class="{ 'show': $page.url.startsWith('/setting') }" id="menusetting">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <Link :href="route('setting.state.index')" class="nav-link" :class="{ 'active': $page.url.startsWith('/setting/state') }"> State </Link>
+                                    </li>
                                 </ul>
                             </div>
                         </li> <!-- end Dashboard Menu -->

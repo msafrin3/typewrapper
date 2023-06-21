@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\MetaController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Settings\StateController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -46,11 +48,18 @@ Route::middleware('auth')->group(function () {
         Route::post('/user/restore/{id}', [UserController::class, 'restore'])->name('user.restore');
         Route::resource('role', RoleController::class);
         Route::resource('permission', PermissionController::class);
+        Route::resource('meta', MetaController::class);
     });
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // SETTINGS
+    // REGIONS
+    Route::prefix('setting')->as('setting.')->group(function() {
+        Route::resource('state', StateController::class);
+    });
 
     // DISASTER
     Route::prefix('disaster')->as('disaster.')->group(function() {
