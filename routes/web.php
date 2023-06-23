@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\MetaController;
+use App\Http\Controllers\Admin\MetaDataController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
@@ -49,6 +50,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('role', RoleController::class);
         Route::resource('permission', PermissionController::class);
         Route::resource('meta', MetaController::class);
+        Route::resource('meta-data', MetaDataController::class);
     });
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

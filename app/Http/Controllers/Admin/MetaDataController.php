@@ -3,16 +3,32 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Meta;
+use App\Models\MetaData;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class MetaDataController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $metaDatas = MetaData::query()
+            ->when($request->input('search'), function($query, $search) {
+                $query->whereHas('meta', function($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%');
+                    $q->orWhere('display_name', 'like', '%' . $search . '%');
+                });
+                $query->orWhere('name', 'like', '%' . $search . '%');
+                $query->orWhere('group_helper', 'like', '%' . $search . '%');
+            })
+            ->with('meta')
+            ->paginate(10)
+            ->withQueryString();
+
+        return Inertia::render('Admin/MetaData/Index', ['metaDatas' => $metaDatas, 'filters' => $request->only('search')]);
     }
 
     /**
@@ -20,7 +36,8 @@ class MetaDataController extends Controller
      */
     public function create()
     {
-        //
+        $metas = Meta::orderBy('name')->get();
+        return Inertia::render('Admin/MetaData/Create', ['metas' => $metas]);
     }
 
     /**
@@ -28,7 +45,18 @@ class MetaDataController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'meta_id' => 'required',
+            'name' => 'required'
+        ]);
+
+        MetaData::create([
+            'meta_id' => $request->input('meta_id'),
+            'name' => $request->input('name'),
+            'group_helper' => $request->input('group_helper')
+        ]);
+
+        return redirect()->route('admin.meta-data.index')->with('success', 'Meta Data Successful Created.');
     }
 
     /**

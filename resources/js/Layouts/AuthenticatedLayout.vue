@@ -520,6 +520,9 @@ $(window).resize(function() {
                                     <li class="nav-item">
                                         <Link :href="route('admin.meta.index')" class="nav-link" :class="{ 'active': $page.url.startsWith('/admin/meta') }"> Meta Management</Link>
                                     </li>
+                                    <li class="nav-item">
+                                        <Link :href="route('admin.meta-data.index')" class="nav-link" :class="{ 'active': $page.url.startsWith('/admin/meta-data') }"> Meta Data Management</Link>
+                                    </li>
                                 </ul>
                             </div>
                         </li> <!-- end Dashboard Menu -->
