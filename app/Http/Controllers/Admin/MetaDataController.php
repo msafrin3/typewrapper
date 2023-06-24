@@ -70,24 +70,37 @@ class MetaDataController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(MetaData $meta_datum)
     {
-        //
+        $metas = Meta::orderBy('name')->get();
+        return Inertia::render('Admin/MetaData/Edit', ['metas' => $metas, 'metaData' => $meta_datum]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, MetaData $meta_datum)
     {
-        //
+        $request->validate([
+            'meta_id' => 'required',
+            'name' => 'required'
+        ]);
+
+        $meta_datum->update([
+            'meta_id' => $request->input('meta_id'),
+            'name' => $request->input('name'),
+            'group_helper' => $request->input('group_helper')
+        ]);
+
+        return redirect()->route('admin.meta-data.index')->with('success', 'Meta Data Successful Updated.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(MetaData $meta_datum)
     {
-        //
+        $meta_datum->delete();
+        return back()->with('success', 'Meta Data Successful Deleted.');
     }
 }

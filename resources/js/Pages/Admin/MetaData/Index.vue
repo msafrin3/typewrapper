@@ -5,6 +5,7 @@ import ContentHeader from '@/Pages/Shared/ContentHeader.vue';
 import { getCurrentInstance } from 'vue';
 import { format } from 'date-fns';
 import Table from '@/Pages/Shared/Table.vue';
+import Swal from 'sweetalert2';
 
 const app = getCurrentInstance();
 const iterationPaginated = app.appContext.config.globalProperties.$iterationPaginated;
@@ -24,10 +25,30 @@ const props = defineProps({
     metaDatas: Object,
     filters: Object
 });
+
+let deleteMetaData = (metaData) => {
+    Swal.fire({
+        title: "Are you sure want to delete this data?",
+        html: '',
+        showCancelButton: true,
+        confirmButtonText: 'Delete',
+        confirmButtonColor: 'Red'
+    }).then((result) => {
+        if(result.isConfirmed) {
+            router.delete(route('admin.meta-data.destroy', metaData), {
+                onSuccess: (response) => {
+                    if(response.props.response.success) {
+                        Swal.fire('Success!', response.props.response.success, 'success');
+                    }
+                }
+            });
+        }
+    });
+}
 </script>
 
 <template>
-    <Head title="" />
+    <Head title="Meta Data Management" />
 
     <AuthenticatedLayout>
         <ContentHeader title="Meta Data Management" :breadcrumbs="breadcrumbs" />
@@ -66,7 +87,7 @@ const props = defineProps({
                                     <Link :href="route('admin.meta-data.edit', metadata)" class="btn btn-info btn-sm">
                                         <i class="ri-edit-2-fill me-1"></i> Edit
                                     </Link>
-                                    <button type="button" class="btn btn-danger btn-sm">
+                                    <button type="button" class="btn btn-danger btn-sm" @click="deleteMetaData(metadata)">
                                         <i class="ri-delete-bin-fill me-1"></i> Delete
                                     </button>
                                 </div>

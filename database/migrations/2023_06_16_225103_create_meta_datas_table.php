@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('meta_datas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('meta_id')->constrained('meta_datas');
+            $table->foreignId('meta_id')->constrained('metas');
             $table->string('name');
             $table->string('group_helper')->nullable();
             $table->timestamps();
