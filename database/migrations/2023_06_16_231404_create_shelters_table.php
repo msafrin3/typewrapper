@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('shelters', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('code');
             $table->foreignId('shelter_type_id')->constrained('meta_datas');
             $table->foreignId('state_id')->constrained('dd_states');
             $table->foreignId('district_id')->constrained('dd_districts');

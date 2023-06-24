@@ -23,6 +23,7 @@
         <link href="{{ url('') }}/assets/css/custom.min.css" rel="stylesheet" type="text/css" />
         <!-- Select2 -->
         <!-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> -->
+        <!-- <link rel="stylesheet" type="text/css" href="{{ url('') }}/plugins/leaflet-1.9.4/leaflet.css" /> -->
 
         @routes
         @vite([
@@ -53,6 +54,8 @@
         <script src="{{ url('') }}/assets/js/pages/password-addon.init.js"></script>
         <!-- Select2 -->
         <!-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> -->
+
+        <!-- <script src="{{ url('') }}/plugins/leaflet-1.9.4/leaflet.js"></script> -->
     </body>
 
 </html>

@@ -503,6 +503,11 @@ $(window).resize(function() {
                             </Link>
                         </li>
                         <li class="nav-item">
+                            <Link class="nav-link menu-link" :href="route('shelter.index')" :class="{ 'active': $page.url.startsWith('/shelter') }">
+                                <i class="ri-home-heart-line"></i> <span>Pusat Pemindahan</span>
+                            </Link>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link menu-link" href="#menuadmin" data-bs-toggle="collapse" role="button" v-bind:aria-expanded="$page.url.startsWith('/admin')" aria-controls="menuadmin">
                                 <i class="ri-admin-line"></i> <span>Administrator</span>
                             </a>

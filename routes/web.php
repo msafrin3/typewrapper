@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Settings\StateController;
+use App\Http\Controllers\ShelterController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -62,6 +63,9 @@ Route::middleware('auth')->group(function () {
     Route::prefix('setting')->as('setting.')->group(function() {
         Route::resource('state', StateController::class);
     });
+
+    // SHELTERS
+    Route::resource('shelter', ShelterController::class);
 
     // DISASTER
     Route::prefix('disaster')->as('disaster.')->group(function() {

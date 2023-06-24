@@ -55,7 +55,7 @@ let deleteMetaData = (metaData) => {
 
         <div class="mb-3">
             <Link :href="route('admin.meta-data.create')" class="btn btn-success">
-                <i class="ri-add-circle-fill fs-15 align-bottom me-1"></i> Add New
+                <i class="ri-add-circle-fill align-bottom me-1"></i> Add New
             </Link>
         </div>
 
@@ -78,7 +78,7 @@ let deleteMetaData = (metaData) => {
                     <tbody>
                         <tr v-for="(metadata, index) in metaDatas.data" :key="metadata.id">
                             <td>{{ iterationPaginated(metaDatas, index) }}</td>
-                            <td>{{ metadata.meta.name }}</td>
+                            <td>{{ metadata.meta.display_name }}</td>
                             <td>{{ metadata.name }}</td>
                             <td>{{ metadata.group_helper }}</td>
                             <td>{{ format(new Date(metadata.created_at), 'yyyy-MM-dd HH:mm:ss') }}</td>

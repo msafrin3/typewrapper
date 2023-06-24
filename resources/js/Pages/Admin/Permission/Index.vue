@@ -56,7 +56,7 @@ let deletePermission = (d_permission) => {
 
         <div class="mb-3">
             <Link :href="route('admin.permission.create')" class="btn btn-success">
-                <i class="ri-add-circle-fill fs-15 align-bottom me-1"></i> Add New
+                <i class="ri-add-circle-fill align-bottom me-1"></i> Add New
             </Link>
         </div>
 
