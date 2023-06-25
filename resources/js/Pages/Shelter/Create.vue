@@ -4,7 +4,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import ContentHeader from '@/Pages/Shared/ContentHeader.vue';
 import * as leaflet from 'leaflet/dist/leaflet';
 import 'leaflet/dist/leaflet.css';
-import { onMounted } from 'vue';
+import { onMounted, reactive, ref, watch } from 'vue';
 
 const breadcrumbs = [
     {
@@ -18,17 +18,11 @@ const breadcrumbs = [
     }
 ];
 
-// let map;
-
-onMounted(() => {
-    // 4.4594095,102.2309874
-    
-
-});
+// 4.4594095,102.2309874
 
 let initMap = () => {
     setTimeout(function() {
-        const map = L.map('map').setView([51.505, -0.09], 13);
+        const map = L.map('map').setView([4.4594095,102.2309874], 8);
 
         const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
@@ -36,6 +30,14 @@ let initMap = () => {
         }).addTo(map);
     }, 500);
 }
+
+let search = ref();
+
+watch(search, value => {
+    setTimeout(function() {
+        console.log(value);
+    }, 2000);
+});
 
 </script>
 
@@ -140,7 +142,7 @@ let initMap = () => {
                 </div>
                 <div class="modal-body" style="position:relative">
                     <div class="form-group mb-3">
-                        <input type="text" class="form-control" placeholder="Carian tempat" style="width:40%">
+                        <input id="searchbox" type="text" class="form-control" placeholder="Carian tempat" style="width:40%" v-model="search">
                     </div>
                     <div id="map" style="width:100%;height:600px"></div>
                 </div>
