@@ -9,7 +9,7 @@ class Parish extends Model
 {
     use HasFactory;
 
-    protected $table = ['dd_parishes'];
+    protected $table = 'dd_parishes';
 
     public function state()
     {

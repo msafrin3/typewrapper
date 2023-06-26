@@ -52,19 +52,19 @@ const props = defineProps({
                         </tr>
                     </template>
                     <tbody>
-                        <tr v-for="(shelter, index) in shelters">
+                        <tr v-for="(shelter, index) in shelters.data" :key="shelter.id">
                             <td>{{ iterationPaginated(shelters,index) }}</td>
                             <td>{{ shelter.name }}</td>
                             <td>{{ shelter.state.name }}</td>
                             <td>{{ shelter.district.name }}</td>
                             <td>{{ shelter.parish.name }}</td>
-                            <td>{{ shelter.shelterType.name }}</td>
+                            <td>{{ shelter.shelter_type.name }}</td>
                             <td>
-                                <div class="d-flex grap-2">
-                                    <Link :href="route('shelter.edit', shelter)" class="btn btn-info">
+                                <div class="d-flex gap-2">
+                                    <Link :href="route('shelter.edit', shelter)" class="btn btn-info btn-sm">
                                         <i class="ri-edit-2-fill align-bottom me-1"></i> Edit
                                     </Link>
-                                    <button type="button" class="btn btn-danger">
+                                    <button type="button" class="btn btn-danger btn-sm">
                                         <i class="ri-delete-bin-fill align-bottom me-1"></i> Delete
                                     </button>
                                 </div>

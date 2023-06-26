@@ -9,7 +9,7 @@ class State extends Model
 {
     use HasFactory;
 
-    protected $table = ['dd_states'];
+    protected $table = 'dd_states';
 
     public function districts()
     {
