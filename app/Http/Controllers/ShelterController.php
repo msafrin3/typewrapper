@@ -75,7 +75,7 @@ class ShelterController extends Controller
             'created_by_id' => auth()->user()->id
         ]);
 
-        return redirect()->route('shelter.index')->with('success', 'Shelter Successful Created');
+        return redirect()->route('shelter.index')->with('success', 'Maklumat Pusat Pemindahan Berjaya Disimpan');
     }
 
     /**
@@ -89,24 +89,66 @@ class ShelterController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, Shelter $shelter)
     {
-        //
+        $data['types'] = MetaData::whereHas('meta', function($query) {
+            $query->where('name', 'jenis_pps')->orderBy('name');
+        })->get();
+
+        $data['states'] = State::orderBy('name')->get();
+
+        if($request->has('state_id')) {
+            $data['districts'] = District::where('state_id', $request->input('state_id'))->orderBy('name')->get();
+        } else {
+            $data['districts'] = District::where('state_id', $shelter->state_id)->orderBy('name')->get();
+        }
+
+        if($request->has('district_id')) {
+            $data['parishes'] = Parish::where('state_id', $request->input('state_id'))->where('district_id', $request->input('district_id'))->orderBy('name')->get();
+        } else {
+            $data['parishes'] = Parish::where('state_id', $shelter->state_id)->where('district_id', $shelter->district_id)->orderBy('name')->get();
+        }
+
+        $data['shelter'] = $shelter;
+
+        return Inertia::render('Shelter/Edit', $data);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Shelter $shelter)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'shelter_type_id' => 'required',
+            'state_id' => 'required',
+            'district_id' => 'required'
+        ]);
+
+        $shelter->update([
+            'name' => $request->input('name'),
+            'shelter_type_id' => $request->input('shelter_type_id'),
+            'state_id' => $request->input('state_id'),
+            'district_id' => $request->input('district_id'),
+            'parish_id' => $request->input('parish_id'),
+            'latitude' => $request->input('latitude'),
+            'longitude' => $request->input('longitude'),
+            'pic_name' => $request->input('pic_name'),
+            'pic_notel1' => $request->input('pic_notel1'),
+            'created_by_id' => auth()->user()->id
+        ]);
+
+        return redirect()->route('shelter.index')->with('success', 'Maklumat Pusat Pemindahan Berjaya Dikemaskini');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Shelter $shelter)
     {
-        //
+        $shelter->delete();
+
+        return back()->with('success', 'Maklumat Pusat Pemindahan Berjaya Dipadam');
     }
 }

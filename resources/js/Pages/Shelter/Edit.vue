@@ -24,33 +24,41 @@ const props = defineProps({
     types: Object,
     states: Object,
     districts: Object,
-    parishes: Object
+    parishes: Object,
+    shelter: Object
 });
 
-let shelter = reactive({
-    name: null,
-    shelter_type_id: props.types[0].id,
-    state_id: null,
-    district_id: null,
-    parish_id: null,
-    latitude: null,
-    longitude: null,
-    pic_name: null,
-    pic_notel1: null
+let e_shelter = reactive({
+    name: props.shelter.name,
+    shelter_type_id: props.shelter.shelter_type_id,
+    state_id: props.shelter.state_id,
+    district_id: props.shelter.district_id,
+    parish_id: props.shelter.parish_id,
+    latitude: props.shelter.latitude,
+    longitude: props.shelter.longitude,
+    pic_name: props.shelter.pic_name,
+    pic_notel1: props.shelter.pic_notel1
 });
 
 let filter = {}
 
 let doFilter = () => {
-    router.get(route('shelter.create'), filter, {
+    router.get(route('shelter.edit', props.shelter), filter, {
         preserveState: true,
         replace: true
     });
 }
 
+let m_latitude = 4.4594095;
+let m_longitude = 102.2309874;
+let m_zoom = 8;
+
 let initMap = () => {
     setTimeout(function() {
-        const map = L.map('map').setView([4.4594095,102.2309874], 8);
+        var i_latitude = props.shelter.latitude == null ? m_latitude : props.shelter.latitude;
+        var i_longitude = props.shelter.longitude == null ? m_longitude : props.shelter.longitude;
+        var i_zoom = props.shelter.latitude == null ? m_zoom : 18;
+        const map = L.map('map').setView([i_latitude, i_longitude], i_zoom);
 
         const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
@@ -66,6 +74,12 @@ let initMap = () => {
         };
         const autocomplete = new google.maps.places.Autocomplete(input, options);
         var marker;
+        // place marker
+        if(props.shelter.latitude != null) {
+            marker = L.marker([props.shelter.latitude, props.shelter.longitude], {
+                draggable: true
+            }).addTo(map);
+        }
         autocomplete.addListener("place_changed", () => {
             // remove marker
             if(marker != undefined) {
@@ -75,8 +89,8 @@ let initMap = () => {
             const place = autocomplete.getPlace();
             var latitude = place.geometry.location.lat();
             var longitude = place.geometry.location.lng();
-            shelter.latitude = latitude;
-            shelter.longitude = longitude;
+            e_shelter.latitude = latitude;
+            e_shelter.longitude = longitude;
             // fit bound
             map.setView([latitude, longitude], 18);
 
@@ -84,12 +98,13 @@ let initMap = () => {
             marker = L.marker([latitude, longitude], {
                 draggable: true
             }).addTo(map);
-            marker.on('dragend', function(event) {
-                var lat = event.target.getLatLng().lat;
-                var long = event.target.getLatLng().lng;
-                shelter.latitude = lat;
-                shelter.longitude = long;
-            });
+            
+        });
+        marker.on('dragend', function(event) {
+            var lat = event.target.getLatLng().lat;
+            var long = event.target.getLatLng().lng;
+            e_shelter.latitude = lat;
+            e_shelter.longitude = long;
         });
 
         
@@ -97,7 +112,7 @@ let initMap = () => {
 }
 
 let submit = () => {
-    router.post(route('shelter.store'), shelter, {
+    router.put(route('shelter.update', props.shelter), e_shelter, {
         onSuccess: (response) => {
             if(response.props.response.success) {
                 Swal.fire('Berjaya!', response.props.response.success, 'success');
@@ -109,17 +124,17 @@ let submit = () => {
 </script>
 
 <template>
-    <Head title="Tambah Puast Pemindahan" />
+    <Head title="Kemaskini Puast Pemindahan" />
 
     <AuthenticatedLayout>
-        <ContentHeader title="Tambah Puast Pemindahan" :breadcrumbs="breadcrumbs" />
+        <ContentHeader title="Kemaskini Puast Pemindahan" :breadcrumbs="breadcrumbs" />
 
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <form @submit.prevent="submit">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title mb-0">Tambah Pusat Pemindahan</h3>
+                            <h3 class="card-title mb-0">Kemaskini Pusat Pemindahan</h3>
                         </div>
                         <div class="card-body">
                             <!-- <input id="searchbox" type="text" class="form-control" placeholder="Carian tempat" style="width:40%"> -->
@@ -128,7 +143,7 @@ let submit = () => {
                                     <label class="form-label">Nama Pusat <span class="text-danger">*</span></label>
                                 </div>
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control" placeholder="Masukkan Nama Pusat Pemindahan" v-model="shelter.name">
+                                    <input type="text" class="form-control" placeholder="Masukkan Nama Pusat Pemindahan" v-model="e_shelter.name">
                                     <span class="text-danger" v-if="errors.name">{{ errors.name }}</span>
                                 </div>
                             </div>
@@ -137,7 +152,7 @@ let submit = () => {
                                     <label class="form-label">Jenis Pusat <span class="text-danger">*</span></label>
                                 </div>
                                 <div class="col-md-7">
-                                    <select class="form-control" v-model="shelter.shelter_type_id">
+                                    <select class="form-control" v-model="e_shelter.shelter_type_id">
                                         <option v-for="type in types" :key="type.id" :value="type.id">{{ type.name }}</option>
                                     </select>
                                     <span class="text-danger" v-if="errors.shelter_type_id">{{ errors.shelter_type_id }}</span>
@@ -148,7 +163,7 @@ let submit = () => {
                                     <label class="form-label">Negeri <span class="text-danger">*</span></label>
                                 </div>
                                 <div class="col-md-6">
-                                    <select class="form-control" v-model="shelter.state_id" @change="filter.state_id = shelter.state_id;filter.district_id = null;filter.parish_id = null;doFilter();">
+                                    <select class="form-control" v-model="e_shelter.state_id" @change="filter.state_id = e_shelter.state_id;filter.district_id = null;filter.parish_id = null;doFilter();">
                                         <option value="">-- Pilih Negeri --</option>
                                         <option v-for="state in states" :key="state.id" :value="state.id">{{ state.name }}</option>
                                     </select>
@@ -160,7 +175,7 @@ let submit = () => {
                                     <label class="form-label">Daerah <span class="text-danger">*</span></label>
                                 </div>
                                 <div class="col-md-6">
-                                    <select class="form-control" v-model="shelter.district_id" @change="filter.district_id = shelter.district_id;doFilter();">
+                                    <select class="form-control" v-model="e_shelter.district_id" @change="filter.district_id = e_shelter.district_id;doFilter();">
                                         <option value="">-- Pilih Daerah --</option>
                                         <option v-for="district in districts" :key="district.id" :value="district.id">{{ district.name }}</option>
                                     </select>
@@ -172,7 +187,7 @@ let submit = () => {
                                     <label class="form-label">Mukim</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <select class="form-control" v-model="shelter.parish_id">
+                                    <select class="form-control" v-model="e_shelter.parish_id">
                                         <option v-for="parish in parishes" :key="parish.id" :value="parish.id">{{ parish.name }}</option>
                                     </select>
                                 </div>
@@ -183,8 +198,8 @@ let submit = () => {
                                 </div>
                                 <div class="col-md-9">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Latitude" v-model="shelter.latitude">
-                                        <input type="text" class="form-control" placeholder="Longitude" v-model="shelter.longitude">
+                                        <input type="text" class="form-control" placeholder="Latitude" v-model="e_shelter.latitude">
+                                        <input type="text" class="form-control" placeholder="Longitude" v-model="e_shelter.longitude">
                                         <button class="btn btn-info" type="button" data-bs-toggle="modal" data-bs-target="#mapModal" @click="initMap">
                                             <i class="ri-map-pin-fill fs-17"></i>
                                         </button>
@@ -197,7 +212,7 @@ let submit = () => {
                                     <label class="form-label">Nama Pengurus PPS</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" v-model="shelter.pic_name">
+                                    <input type="text" class="form-control" v-model="e_shelter.pic_name">
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -205,7 +220,7 @@ let submit = () => {
                                     <label class="form-label">No Telefon</label>
                                 </div>
                                 <div class="col-md-4">
-                                    <input type="text" class="form-control" v-model="shelter.pic_notel1">
+                                    <input type="text" class="form-control" v-model="e_shelter.pic_notel1">
                                 </div>
                             </div>
     
