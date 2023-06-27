@@ -19,9 +19,9 @@ return new class extends Migration
             $table->foreignId('level_id')->constrained('meta_datas');
             $table->timestamp('datetime_start');
             $table->timestamp('datetime_end')->nullable();
-            $table->foreignId('dd_state_id')->constrained('dd_states');
-            $table->foreignId('dd_district_id')->nullable()->constrained('dd_districts');
-            $table->foreignId('dd_parish_id')->nullable()->constrained('dd_parishes');
+            $table->foreignId('state_id')->constrained('dd_states');
+            $table->foreignId('district_id')->nullable()->constrained('dd_districts');
+            $table->foreignId('parish_id')->nullable()->constrained('dd_parishes');
             $table->decimal('latitude', 11, 8)->nullable();
             $table->decimal('longitude', 11, 8)->nullable();
             $table->enum('status', ['Aktif', 'Tidak Aktif'])->default('Tidak Aktif');

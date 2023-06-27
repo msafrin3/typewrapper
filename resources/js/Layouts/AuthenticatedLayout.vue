@@ -503,6 +503,11 @@ $(window).resize(function() {
                             </Link>
                         </li>
                         <li class="nav-item">
+                            <Link class="nav-link menu-link" :href="route('disaster.index')" :class="{ 'active': $page.url.startsWith('/disaster') }">
+                                <i class="ri-thunderstorms-fill"></i> <span>Bencana</span>
+                            </Link>
+                        </li>
+                        <li class="nav-item">
                             <Link class="nav-link menu-link" :href="route('shelter.index')" :class="{ 'active': $page.url.startsWith('/shelter') }">
                                 <i class="ri-home-heart-line"></i> <span>Pusat Pemindahan</span>
                             </Link>
