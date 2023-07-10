@@ -68,9 +68,20 @@ class DisasterShelterController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Disaster $disaster, DisasterShelter $shelter)
     {
-        //
+        $request->validate([
+            'shelter_id' => 'required',
+            'dibuka_pada' => 'required'
+        ]);
+
+        $data = $request->all();
+        $data['disaster_id'] = $disaster->id;
+        $data['created_by_id'] = auth()->user()->id;
+
+        $shelter->update($data);
+
+        return back()->with('success', 'Maklumat Pusat Pemindahan berjaya dikemaskini');
     }
 
     /**

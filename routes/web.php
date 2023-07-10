@@ -79,6 +79,7 @@ Route::middleware('auth')->group(function () {
 
         Route::prefix('{disaster}/shelter')->as('shelter.')->group(function() {
             Route::post('/create', [App\Http\Controllers\DisasterShelterController::class, 'store'])->name('store');
+            Route::put('/{shelter}/edit', [App\Http\Controllers\DisasterShelterController::class, 'update'])->name('update');
         });
     });
 });

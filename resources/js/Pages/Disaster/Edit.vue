@@ -258,7 +258,7 @@ let initMap = () => {
                         </div>
                         <div class="card-footer">
                             <div class="d-flex gap-2 justify-content-end">
-                                <Link :href="route('disaster.index')" class="btn btn-light">Batal</Link>
+                                <Link :href="route('disaster.show', disaster)" class="btn btn-light">Batal</Link>
                                 <button type="submit" class="btn btn-success">Simpan</button>
                             </div>
                         </div>
