@@ -46,4 +46,9 @@ class Disaster extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function shelters()
+    {
+        return $this->hasMany(DisasterShelter::class);
+    }
 }

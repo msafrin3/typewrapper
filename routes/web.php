@@ -76,6 +76,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/{disaster}/edit', [App\Http\Controllers\DisasterController::class, 'edit'])->name('edit');
         Route::post('/{disaster}/edit', [App\Http\Controllers\DisasterController::class, 'update'])->name('update');
         Route::delete('/{disaster}/delete', [App\Http\Controllers\DisasterController::class, 'destroy'])->name('destroy');
+
+        Route::prefix('{disaster}/shelter')->as('shelter.')->group(function() {
+            Route::post('/create', [App\Http\Controllers\DisasterShelterController::class, 'store'])->name('store');
+        });
     });
 });
 

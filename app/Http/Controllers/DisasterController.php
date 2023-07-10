@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Disaster;
+use App\Models\DisasterShelter;
 use App\Models\Meta;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\State;
 use App\Models\District;
 use App\Models\Parish;
+use App\Models\Shelter;
 
 class DisasterController extends Controller
 {
@@ -74,9 +76,29 @@ class DisasterController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Disaster $disaster)
+    public function show(Request $request, Disaster $disaster)
     {
-        return Inertia::render('Disaster/Show', ['disaster' => $disaster->load(['kategori', 'state', 'district', 'parish', 'createdBy', 'level'])]);
+        $data['disaster'] = $disaster->load(['kategori', 'state', 'district', 'parish', 'createdBy', 'level']);
+
+        $data['states'] = State::all();
+
+        if($request->has('state_id')) {
+            $data['districts'] = District::where('state_id', $request->input('state_id'))->orderBy('name')->get();
+        }
+
+        if($request->has('district_id')) {
+            $data['parishes'] = Parish::where('state_id', $request->input('state_id'))->where('district_id', $request->input('district_id'))->orderBy('name')->get();
+            $data['shelters'] = Shelter::where('state_id', $request->input('state_id'))->where('district_id', $request->input('district_id'))->orderBy('name')->get();
+        }
+
+        if($request->has('parish_id')) {
+            $data['shelters'] = Shelter::where('state_id', $request->input('state_id'))->where('district_id', $request->input('district_id'))->where('parish_id', $request->input('parish_id'))->orderBy('name')->get();
+        }
+
+        // list shelters
+        $data['disaster_shelters'] = $disaster->shelters()->with(['shelter.district'])->get();
+
+        return Inertia::render('Disaster/Show', $data);
     }
 
     /**

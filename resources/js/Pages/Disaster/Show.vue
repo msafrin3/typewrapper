@@ -5,10 +5,21 @@ import ContentHeader from '@/Pages/Shared/ContentHeader.vue';
 import { format } from 'date-fns';
 import * as leaflet from 'leaflet/dist/leaflet';
 import 'leaflet/dist/leaflet.css';
+import { getCurrentInstance, onMounted, reactive,  } from 'vue';
+import MyChoices from '@/Pages/Shared/MyChoices.vue';
+import Swal from 'sweetalert2';
+
+const app = getCurrentInstance();
+const iteration = app.appContext.config.globalProperties.$iteration;
 
 const props = defineProps({
     disaster: Object,
-    tabActive: String
+    tabActive: String,
+    states: Object,
+    districts: Object,
+    parishes: Object,
+    shelters: Object,
+    disaster_shelters: Object
 });
 
 const breadcrumbs = [
@@ -22,6 +33,40 @@ const breadcrumbs = [
         active: true
     }
 ];
+
+let d_filter = {};
+
+let doFilter = () => {
+    router.get(route('disaster.show', props.disaster), d_filter, {
+        preserveState: true,
+        replace: true
+    });
+}
+
+let disaster_shelter = reactive({
+    state_id: null,
+    district_id: null,
+    parish_id: null,
+    shelter_id: null,
+    total_keluarga: null,
+    total_mangsa: null,
+    total_kematian: null,
+    dibuka_pada: null,
+    ditutup_pada: null
+});
+
+let submit = () => {
+    disaster_shelter.shelter_id = $("#select_pps").val();
+    router.post(route('disaster.shelter.store', props.disaster), disaster_shelter, {
+        onSuccess: (response) => {
+            if(response.props.response.success) {
+                Swal.fire('Berjaya!', response.props.response.success, 'success');
+            }
+        }
+    });
+}
+
+// =============== map setting ==============
 
 let map;
 let i_latitude = props.disaster.latitude == null ? 4.4594095 : props.disaster.latitude;
@@ -119,6 +164,11 @@ let initMap = () => {
                                             <td>:</td>
                                             <td>{{ format(new Date(disaster.datetime_start), 'yyyy-MM-dd HH:mm:ii') }}</td>
                                         </tr>
+                                        <tr>
+                                            <th>Status</th>
+                                            <td>:</td>
+                                            <td>{{ disaster.status }}</td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -132,10 +182,48 @@ let initMap = () => {
                         </div>
                     </div>
                     <div class="tab-pane" id="tab2" role="tabpanel">
-                        <h6>Use a color palette</h6>
-                        <p class="mb-0">
-                            Opposites attract, and that’s a fact. It’s in our nature to be interested in the unusual, and that’s why using contrasting colors in <a href="javascript:void(0);" class="text-decoration-underline"><b>Graphic Design</b></a> is a must. It’s eye-catching, it makes a statement, it’s impressive graphic design. Increase or decrease the letter spacing depending on the situation and try, try again until it looks right, and each letter has the perfect spot of its own.
-                        </p>
+                        <div class="text-end">
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addPPSModal">
+                                <i class="ri-add-circle-fill align-bottom me-1"></i> Daftar Baru
+                            </button>
+                        </div>
+                        <table class="table table-bordered mt-3">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Daerah</th>
+                                    <th>Pusat Pemindahan</th>
+                                    <th>Jumlah Keluarga</th>
+                                    <th>Jumlah Mangsa</th>
+                                    <th>Jumlah Kematian</th>
+                                    <th>Dibuka Pada</th>
+                                    <th>Ditutup Pada</th>
+                                    <th>Tindakan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(shelter, index) in disaster_shelters" :key="shelter.id">
+                                    <td>{{ iteration(disaster_shelters, index) }}</td>
+                                    <td>{{ shelter.shelter.district.name }}</td>
+                                    <td>{{ shelter.shelter.name }}</td>
+                                    <td class="text-center">{{ shelter.total_keluarga.toLocaleString() }}</td>
+                                    <td class="text-center">{{ shelter.total_mangsa.toLocaleString() }}</td>
+                                    <td class="text-center">{{ shelter.total_kematian.toLocaleString() }}</td>
+                                    <td>{{ format(new Date(shelter.dibuka_pada), 'yyyy-MM-dd HH:mm:ii') }}</td>
+                                    <td>{{ format(new Date(shelter.ditutup_pada), 'yyyy-MM-dd HH:mm:ii') }}</td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <button type="button" class="btn btn-primary btn-sm">
+                                                <i class="ri-eye-2-line align-bottom me-1"></i> Lihat
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-sm">
+                                                <i class="ri-delete-bin-line align-bottom me-1"></i> Delete
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                     <div class="tab-pane" id="tab3" role="tabpanel">
                         <div id="map" style="width:100%;height:600px"></div>
@@ -144,4 +232,132 @@ let initMap = () => {
             </div>
         </div>
     </AuthenticatedLayout>
+
+    <div id="addPPSModal" class="modal fade" aria-labelledby="myModalLabel" aria-modal="true" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Daftar Maklumat PPS</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form @submit.prevent="submit">
+                    <div class="modal-body">
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <label class="form-label">Negeri</label>
+                            </div>
+                            <div class="col-md-9">
+                                <select class="form-control" v-model="disaster_shelter.state_id" @change="d_filter.state_id = disaster_shelter.state_id;doFilter()">
+                                    <option value="">-- Pilih Negeri --</option>
+                                    <option v-for="state in states" :key="state.id" :value="state.id">{{ state.name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <label class="form-label">Daerah</label>
+                            </div>
+                            <div class="col-md-9">
+                                <select class="form-control" v-model="disaster_shelter.district_id" @change="d_filter.district_id = disaster_shelter.district_id;doFilter()">
+                                    <option value="">-- Pilih Daerah --</option>
+                                    <option v-for="district in districts" :key="district.id" :value="district.id">{{ district.name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <label class="form-label">Mukim</label>
+                            </div>
+                            <div class="col-md-9">
+                                <select class="form-control" v-model="disaster_shelter.parish_id" @change="d_filter.parish_id = disaster_shelter.parish_id;doFilter()">
+                                    <option value="">-- Pilih Mukim --</option>
+                                    <option v-for="parish in parishes" :key="parish.id" :value="parish.id">{{ parish.name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <label class="form-label">Pusat Pemindahan <span class="text-danger">*</span></label>
+                            </div>
+                            <div class="col-md-9">
+                                <select class="form-control" v-model="disaster_shelter.shelter_id">
+                                    <option v-for="shelter in shelters" :key="shelter.id" :value="shelter.id">{{ shelter.name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <label class="form-label">Jumlah Keluarga</label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="number" class="form-control" v-model="disaster_shelter.total_keluarga">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <label class="form-label">Jumlah Mangsa</label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="number" class="form-control" v-model="disaster_shelter.total_mangsa">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <label class="form-label">Jumlah Kematian</label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="number" class="form-control" v-model="disaster_shelter.total_kematian">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <label class="form-label">Tarikh Dibuka <span class="text-danger">*</span></label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="datetime-local" class="form-control" v-model="disaster_shelter.dibuka_pada">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <label class="form-label">Tarikh Ditutup</label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="datetime-local" class="form-control" v-model="disaster_shelter.ditutup_pada">
+                            </div>
+                        </div>
+                        <!-- <h5 class="mt-4 mb-4">Maklumat Pengurus Pusat Pemindahan</h5>
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <label class="form-label">Nama Pengurus</label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <label class="form-label">No. Telefon</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <label class="form-label">Jawatan</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control">
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary ">Save Changes</button>
+                    </div>
+                </form>
+
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
 </template>
