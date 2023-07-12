@@ -78,7 +78,7 @@ let deleteShelter = (shelter) => {
                             <td>{{ shelter.name }}</td>
                             <td>{{ shelter.state.name }}</td>
                             <td>{{ shelter.district.name }}</td>
-                            <td>{{ shelter.parish.name }}</td>
+                            <td>{{ shelter.parish_id == null ? '-' : shelter.parish.name }}</td>
                             <td>{{ shelter.shelter_type.name }}</td>
                             <td>
                                 <div class="d-flex gap-2">

@@ -82,6 +82,12 @@ Route::middleware('auth')->group(function () {
             Route::put('/{shelter}/edit', [App\Http\Controllers\DisasterShelterController::class, 'update'])->name('update');
         });
     });
+
+    // REPORT
+    Route::prefix('report')->as('report.')->group(function() {
+        Route::get('/', [App\Http\Controllers\ReportController::class, 'index'])->name('index');
+        Route::post('generate', [App\Http\Controllers\Report::class, 'generate'])->name('generate.store');
+    });
 });
 
 require __DIR__.'/auth.php';

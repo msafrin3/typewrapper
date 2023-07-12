@@ -170,7 +170,7 @@ let initMap = () => {
                                 <table class="table table-sm table-borderless">
                                     <tbody>
                                         <tr>
-                                            <th>Tajuk</th>
+                                            <th width="30%">Tajuk</th>
                                             <td>:</td>
                                             <td>{{ disaster.name }}</td>
                                         </tr>
@@ -255,7 +255,7 @@ let initMap = () => {
                                     <td class="text-center">{{ shelter.total_mangsa.toLocaleString() }}</td>
                                     <td class="text-center">{{ shelter.total_kematian.toLocaleString() }}</td>
                                     <td>{{ format(new Date(shelter.dibuka_pada), 'yyyy-MM-dd HH:mm:ii') }}</td>
-                                    <td>{{ format(new Date(shelter.ditutup_pada), 'yyyy-MM-dd HH:mm:ii') }}</td>
+                                    <td>{{ shelter.ditutup_pada == null ? '-' : format(new Date(shelter.ditutup_pada), 'yyyy-MM-dd HH:mm:ii') }}</td>
                                     <td>
                                         <div class="d-flex gap-2">
                                             <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#editPPSModal" @click="editPPS(shelter)">
