@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamp('report_date');
             $table->text('json');
+            $table->text('path')->nullable();
             $table->foreignId('created_by_id')->constrained('users');
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();

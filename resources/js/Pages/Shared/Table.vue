@@ -29,8 +29,8 @@ watch(search, value => {
     <div>
         <div class="row">
             <div class="col-lg-3 col-md-4 col-sm-12 form-group">
-                <label>Search</label>
-                <input type="text" class="form-control" id="search" placeholder="Search anything..." v-model="search">
+                <label>Carian</label>
+                <input type="text" class="form-control" id="search" placeholder="Carian..." v-model="search">
             </div>
             <div class="col-lg-2">
                 <label>&nbsp;</label><br />

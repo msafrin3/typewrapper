@@ -86,7 +86,8 @@ Route::middleware('auth')->group(function () {
     // REPORT
     Route::prefix('report')->as('report.')->group(function() {
         Route::get('/', [App\Http\Controllers\ReportController::class, 'index'])->name('index');
-        Route::post('generate', [App\Http\Controllers\Report::class, 'generate'])->name('generate.store');
+        Route::post('create', [App\Http\Controllers\ReportController::class, 'store'])->name('store');
+        Route::get('/{report}', [App\Http\Controllers\ReportController::class, 'show'])->name('show');
     });
 });
 
