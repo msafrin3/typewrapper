@@ -192,11 +192,7 @@ class ReportController extends Controller
         //
         $data = json_decode($report->json);
 
-        $pdf = PDF::loadView('pdf.test', ['report' => $report, 'data' => $data])
-            ->setOption('margin-top', '20mm')
-            ->setOption('margin-bottom', '20mm')
-            ->setOption('margin-right', '20mm')
-            ->setOption('margin-left', '20mm');
+        $pdf = PDF::loadView('pdf.report', ['report' => $report, 'data' => $data]);
         return $pdf->inline();
 
         return view('pdf.report', ['report' => $report, 'data' => $data]);
