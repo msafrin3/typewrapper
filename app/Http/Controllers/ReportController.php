@@ -149,18 +149,25 @@ class ReportController extends Controller
         $disaster_by_state = DB::select("SELECT 
             a.state_id,
             a.state, 
+            count(a.district_id) AS total_district,
             sum(a.total_keluarga) AS total_keluarga, 
             sum(a.total_mangsa) AS total_mangsa, 
-            sum(a.total_kematian) AS total_kematian 
+            sum(a.total_kematian) AS total_kematian,
+            sum(IF(a.is_active = 1, 1, 0)) AS total_pps_buka
             FROM
             (SELECT
             a.*,
             c.state_id,
-            d.name AS state
+            d.name AS state,
+            c.district_id,
+            e.name AS district,
+            IF(a.ditutup_pada IS NULL, 1, 0) AS is_active
             FROM disaster_shelters a
             LEFT JOIN shelters b ON a.shelter_id = b.id
             LEFT JOIN disasters c ON a.disaster_id = c.id
-            LEFT JOIN dd_states d ON c.state_id = d.id) a
+            LEFT JOIN dd_states d ON c.state_id = d.id
+            LEFT JOIN dd_districts e ON c.district_id = e.id
+            WHERE c.status = 'Aktif') a
             GROUP BY a.state_id;");
 
         $json = [
@@ -183,13 +190,14 @@ class ReportController extends Controller
     public function show(Report $report)
     {
         //
-        // $pdf = PDF::loadView('pdf.test')
-        //     ->setOption('margin-top', '20mm')
-        //     ->setOption('margin-bottom', '20mm')
-        //     ->setOption('margin-right', '20mm')
-        //     ->setOption('margin-left', '20mm');
-        // return $pdf->inline();
         $data = json_decode($report->json);
+
+        $pdf = PDF::loadView('pdf.test', ['report' => $report, 'data' => $data])
+            ->setOption('margin-top', '20mm')
+            ->setOption('margin-bottom', '20mm')
+            ->setOption('margin-right', '20mm')
+            ->setOption('margin-left', '20mm');
+        return $pdf->inline();
 
         return view('pdf.report', ['report' => $report, 'data' => $data]);
     }
