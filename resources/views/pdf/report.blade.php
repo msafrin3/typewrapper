@@ -782,6 +782,20 @@ $date = new Carbon($report->report_date);
         </table>
 
         <div class="page-break"></div>
+
+        <table class="table-detail">
+            <thead>
+                <tr>
+                    <th>BENCANA</th>
+                    <th>NEGERI</th>
+                    <th>DAERAH</th>
+                    <th>PUSAT PEMINDAHAN SEMENTARA (PPS)</th>
+                    <th>KELUARGA</th>
+                    <th>MANGSA</th>
+                    <th>TREND</th>
+                </tr>
+            </thead>
+        </table>
     </body>
 
     <script>
