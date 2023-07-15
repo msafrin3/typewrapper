@@ -12,10 +12,15 @@ class Report extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['report_date', 'json', 'path', 'created_by_id'];
+    protected $fillable = ['report_date', 'path', 'created_by_id'];
 
     public function createdBy()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function details()
+    {
+        return $this->hasMany(ReportDetail::class);
     }
 }

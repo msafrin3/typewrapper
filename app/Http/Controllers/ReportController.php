@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Disaster;
 use App\Models\DisasterShelter;
 use App\Models\Report;
+use App\Models\ReportDetail;
+use App\Services\ReportService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -17,7 +19,6 @@ class ReportController extends Controller
      */
     public function index(Request $request)
     {
-        
         $data['reports'] = Report::query()
             ->orderBy('report_date', 'desc')
             ->with(['createdBy'])
@@ -46,140 +47,30 @@ class ReportController extends Controller
             'report_date' => 'required'
         ]);
 
-        $data = $request->all();
-        $data['created_by_id'] = auth()->user()->id;
+        $report = Report::create([
+            'report_date' => $request->input('report_date'),
+            'created_by_id' => auth()->user()->id
+        ]);
 
-        $summary = DB::select("SELECT
-            count(a.state_id) AS total_state,
-            count(a.district_id) AS total_district,
-            sum(a.total_keluarga) AS total_keluarga,
-            sum(a.total_mangsa) AS total_mangsa,
-            sum(a.total_kematian) AS total_kematian,
-            sum(IF(a.is_active = 1, 1, 0)) AS total_pps_buka,
-            sum(IF(a.is_active = 0, 1, 0)) AS total_pps_tutup
-            FROM
-            (SELECT
-            a.*,
-            b.name AS shelter_name,
-            c.kategori_id,
-            e.name AS kategori,
-            c.state_id,
-            d.name AS state,
-            c.district_id,
-            f.name AS district,
-            IF(a.ditutup_pada IS NULL, 1, 0) AS is_active
-            FROM disaster_shelters a
-            LEFT JOIN shelters b ON a.shelter_id = b.id
-            LEFT JOIN disasters c ON a.disaster_id = c.id
-            LEFT JOIN dd_states d ON c.state_id = d.id
-            LEFT JOIN meta_datas e ON c.kategori_id = e.id
-            LEFT JOIN dd_districts f ON c.district_id = f.id
-            WHERE c.status = 'Aktif') a;");
+        // get active disasters
+        $disasters = Disaster::where('status', 'Aktif')->get();
 
-        $disasters = Disaster::where('status', 'Aktif')->with([
-            'kategori', 'level', 'state', 'district', 'parish', 'createdBy', 'shelters.shelter.state', 'shelters.shelter.district', 'shelters.shelter.parish'
-        ])->orderBy('created_at', 'desc')->get();
-
-        $disaster_by_type = DB::select("SELECT 
-            a.kategori_id,
-            a.kategori, 
-            sum(a.total_keluarga) AS total_keluarga, 
-            sum(a.total_mangsa) AS total_mangsa, 
-            sum(a.total_kematian) AS total_kematian 
-            FROM
-            (SELECT
-            a.*,
-            c.kategori_id,
-            e.name AS kategori,
-            c.state_id,
-            d.name AS state
-            FROM disaster_shelters a
-            LEFT JOIN shelters b ON a.shelter_id = b.id
-            LEFT JOIN disasters c ON a.disaster_id = c.id
-            LEFT JOIN dd_states d ON c.state_id = d.id
-            LEFT JOIN meta_datas e ON c.kategori_id = e.id
-            WHERE c.status = 'Aktif') a
-            GROUP BY a.kategori_id;");
-
-        foreach($disaster_by_type as $type) {
-            $disaster_by_type_state = DB::select("SELECT 
-                a.state_id,
-                a.state, 
-                sum(a.total_keluarga) AS total_keluarga, 
-                sum(a.total_mangsa) AS total_mangsa, 
-                sum(a.total_kematian) AS total_kematian 
-                FROM
-                (SELECT
-                a.*,
-                c.kategori_id,
-                e.name AS kategori,
-                c.state_id,
-                d.name AS state
-                FROM disaster_shelters a
-                LEFT JOIN shelters b ON a.shelter_id = b.id
-                LEFT JOIN disasters c ON a.disaster_id = c.id
-                LEFT JOIN dd_states d ON c.state_id = d.id
-                LEFT JOIN meta_datas e ON c.kategori_id = e.id
-                WHERE c.status = 'Aktif') a
-                WHERE a.kategori_id = ".$type->kategori_id."
-                GROUP BY a.state_id;");
-
-            foreach($disaster_by_type_state as $state) {
-                $shelters = DB::select("SELECT
-                    a.*,
-                    b.name AS shelter_name,
-                    c.kategori_id,
-                    e.name AS kategori,
-                    c.state_id,
-                    d.name AS state
-                    FROM disaster_shelters a
-                    LEFT JOIN shelters b ON a.shelter_id = b.id
-                    LEFT JOIN disasters c ON a.disaster_id = c.id
-                    LEFT JOIN dd_states d ON c.state_id = d.id
-                    LEFT JOIN meta_datas e ON c.kategori_id = e.id
-                    WHERE c.status = 'Aktif'
-                    HAVING kategori_id = ".$type->kategori_id."
-                    AND state_id = ".$state->state_id);
-                $state->shelters = $shelters;
+        foreach($disasters as $disaster) {
+            foreach($disaster->shelters as $shelter) {
+                ReportDetail::create([
+                    'report_id' => $report->id,
+                    'disaster_id' => $disaster->id,
+                    'kategori_id' => $disaster->kategori_id,
+                    'state_id' => $shelter->shelter->state_id,
+                    'district_id' => $shelter->shelter->district_id,
+                    'shelter_id' => $shelter->shelter_id,
+                    'total_keluarga' => $shelter->total_keluarga,
+                    'total_mangsa' => $shelter->total_mangsa,
+                    'total_kematian' => $shelter->total_kematian,
+                    'shelter_is_active' => ($shelter->ditutup_pada == null ? 1 : 0)
+                ]);
             }
-
-            $type->states = $disaster_by_type_state;
         }
-
-        $disaster_by_state = DB::select("SELECT 
-            a.state_id,
-            a.state, 
-            count(a.district_id) AS total_district,
-            sum(a.total_keluarga) AS total_keluarga, 
-            sum(a.total_mangsa) AS total_mangsa, 
-            sum(a.total_kematian) AS total_kematian,
-            sum(IF(a.is_active = 1, 1, 0)) AS total_pps_buka
-            FROM
-            (SELECT
-            a.*,
-            c.state_id,
-            d.name AS state,
-            c.district_id,
-            e.name AS district,
-            IF(a.ditutup_pada IS NULL, 1, 0) AS is_active
-            FROM disaster_shelters a
-            LEFT JOIN shelters b ON a.shelter_id = b.id
-            LEFT JOIN disasters c ON a.disaster_id = c.id
-            LEFT JOIN dd_states d ON c.state_id = d.id
-            LEFT JOIN dd_districts e ON c.district_id = e.id
-            WHERE c.status = 'Aktif') a
-            GROUP BY a.state_id;");
-
-        $json = [
-            'summary' => $summary,
-            'disasters' => $disasters,
-            'disasters_by_state' => $disaster_by_state,
-            'disasters_by_type' => $disaster_by_type
-        ];
-
-        $data['json'] = json_encode($json);
-
-        Report::create($data);
 
         return back()->with('success', 'Laporan Berjaya Dijana');
     }
@@ -190,12 +81,21 @@ class ReportController extends Controller
     public function show(Report $report)
     {
         //
-        $data = json_decode($report->json);
+        $previous_report = (new ReportService())->findPreviousReport($report);
+        $previous_report_detail = null;
+        if($previous_report) {
+            $previous_report_detail = (new ReportService())->reportDetails($previous_report);
+        }
+        $data = [
+            'report' => $report,
+            'data' => (new ReportService())->reportDetails($report),
+            'previous_report' => $previous_report_detail
+        ];
 
-        $pdf = PDF::loadView('pdf.report', ['report' => $report, 'data' => $data]);
+        $pdf = PDF::loadView('pdf.report', ['report' => $report]);
         return $pdf->inline();
 
-        return view('pdf.report', ['report' => $report, 'data' => $data]);
+        return view('pdf.report', ['report' => $report]);
     }
 
     /**
