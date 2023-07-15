@@ -131,7 +131,11 @@ let initMap = () => {
         }).addTo(map);
 
         if(props.disaster.latitude != null) {
-            marker = L.marker([i_latitude, i_longitude]).addTo(map);
+            var icon = L.icon({
+                iconUrl: '/images/marker-icon.png',
+                shadowUrl: '/images/marker-shadow.png'
+            });
+            marker = L.marker([i_latitude, i_longitude], {icon: icon}).addTo(map);
         }
     }, 500);
 }

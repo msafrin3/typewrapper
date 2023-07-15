@@ -28,6 +28,11 @@ const props = defineProps({
     levels: Object
 });
 
+let icon = L.icon({
+    iconUrl: '/images/marker-icon.png',
+    shadowUrl: '/images/marker-shadow.png'
+});
+
 let initMap = () => {
     setTimeout(function() {
         const map = L.map('map').setView([4.4594095,102.2309874], 8);
@@ -61,7 +66,8 @@ let initMap = () => {
 
             // set the marker
             marker = L.marker([latitude, longitude], {
-                draggable: true
+                draggable: true,
+                icon: icon
             }).addTo(map);
             marker.on('dragend', function(event) {
                 var lat = event.target.getLatLng().lat;

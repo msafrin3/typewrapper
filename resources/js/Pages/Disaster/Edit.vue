@@ -73,6 +73,10 @@ let submit = () => {
 }
 
 let marker;
+let icon = L.icon({
+    iconUrl: '/images/marker-icon.png',
+    shadowUrl: '/images/marker-shadow.png'
+});
 
 let initMap = () => {
     setTimeout(function() {
@@ -95,7 +99,8 @@ let initMap = () => {
         // place marker
         if(props.disaster.latitude != null) {
             marker = L.marker([props.disaster.latitude, props.disaster.longitude], {
-                draggable: true
+                draggable: true,
+                icon: icon
             }).addTo(map);
             marker.on('dragend', function(event) {
                 var lat = event.target.getLatLng().lat;
@@ -118,7 +123,8 @@ let initMap = () => {
 
             // set the marker
             marker = L.marker([latitude, longitude], {
-                draggable: true
+                draggable: true,
+                icon: icon
             }).addTo(map);
             marker.on('dragend', function(event) {
                 var lat = event.target.getLatLng().lat;
