@@ -6,7 +6,7 @@ $date = new Carbon($report->report_date);
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Title of the document</title>
+        <title>Laporan Terkini Kejadian Bencana</title>
     </head>
     <style type="text/css">
         * {

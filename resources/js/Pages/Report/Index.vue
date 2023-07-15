@@ -77,6 +77,9 @@ let generate = () => {
                                     <a :href="route('report.show', report)" class="btn btn-info btn-sm" target="_blank">
                                         <i class="ri-eye-2-line align-bottom me-1"></i> Lihat
                                     </a>
+                                    <a :href="route('report.show', {'report': report, 'download': true})" class="btn btn-success btn-sm" target="_blank">
+                                        <i class="ri-download-2-line align-bottom me-1"></i> Muat Turun
+                                    </a>
                                     <button type="button" class="btn btn-danger btn-sm">
                                         <i class="ri-delete-bin-line align-bottom me-1"></i> Delete
                                     </button>
