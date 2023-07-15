@@ -39,7 +39,7 @@ class DisasterShelterController extends Controller
         $data['created_by_id'] = auth()->user()->id;
 
         // update shelter info if existed
-        $shelter = DisasterShelter::find($request->input('shelter_id'));
+        $shelter = $disaster->shelters()->where('shelter_id', $request->input('shelter_id'))->first();
         if($shelter) {
             $shelter->update($data);
         } else {

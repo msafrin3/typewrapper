@@ -13,77 +13,77 @@ $date = new Carbon($report->report_date);
             font-family: sans-serif;
         }
         .upper {
-            text-transform: uppercase;
+                text-transform: uppercase;
         }
 
         .sqrbox {
-            border: 1px solid black;        
+                border: 1px solid black;        
         }
 
         .grid {
-            font-size: small;
-            /* color: #000; */
-            font-family: Arial !important;
+                font-size: small;
+        /* color: #000; */
+        font-family: Arial !important;
         }
 
         .grid table {
-            font-size: x-small;
+                font-size: x-small;
             border-collapse: collapse;
         }
 
         .grid table, .grid td, .grid th {
-            border: 1px solid black;  
+                border: 1px solid black;  
         }
 
         .table-summary {
-            width: 90%;
-            border-spacing: 1;
-            border-color: white;
+                width: 90%;
+                border-spacing: 1;
+                border-color: white;
         }
 
         .table-summary th {
-            background: #2363a4;
-            color: white;
+                background: #2363a4;
+                color: white;
         }
         .table-summary tr:nth-child(odd) {
-            background: #dfe7ef;
+                background: #dfe7ef;
         }
         .table-summary tr:nth-child(even) {
-            background: #a5c5e6;
+                background: #a5c5e6;
         }
         .table-summary td {
-            text-align: center;
+                text-align: center;
         }
         .table-summary th, .table-summary td {
-            padding: 4px;
+                padding: 4px;
         }
 
 
         .table-detail {
             border-spacing: 0;
             border-color: black;
-            font-size: 13px;
+            font-size: 12px;
         }
         .table-detail th {
-            background: #2363a4;
-            color: white;
+                background: #2363a4;
+                color: white;
         }
         .table-detail th, .table-detail td {
-            padding: 4px;
+                padding: 3px;
         }
 
         .bencana-title {
-            font-size: 12px;
-            font-weight: bold;
-            color: #2925db;
-            margin: 20px;
+                font-size: 12px;
+                font-weight: bold;
+                color: #2925db;
+                margin: 20px;
         }
 
         #svgContainer {
-            border: 1px solid black;
-            border-radius: 20px;
-            margin-bottom: 10px;
-            width: 95%;
+                border: 1px solid black;
+                border-radius: 20px;
+                margin-bottom: 10px;
+                width: 95%;
         }
         .page-break {
             page-break-after: always !important;
@@ -789,7 +789,38 @@ $date = new Carbon($report->report_date);
         <div class="page-break"></div>
 
         <h2 align="center"><u>PERINCIAN PUSAT PEMINDAHAN SEMENTARA (PPS)</u></h2>
-        {!! $data['table_shelter_detail'] !!}
+        <table class="table-detail" border="1" width="100%">
+            <thead>
+                <tr>
+                    <th>BENCANA</th>
+                    <th>NEGERI</th>
+                    <th>DAERAH</th>
+                    <th>PUSAT PEMINDAHAN SEMENTARA (PPS)</th>
+                    <th>KELUARGA</th>
+                    <th>MANGSA</th>
+                    <th>TREND</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($data['disaster_by_type'] as $type_index => $type)
+                    @foreach($type->states as $state_index => $state)
+                        @foreach($state->districts as $district_index => $district)
+                            @foreach($district->shelters as $shelter_index => $shelter)
+                            <tr>
+                                <td>{{ $type->kategori }}</td>
+                                <td>{{ $state->state }}</td>
+                                <td>{{ $district->district }}</td>
+                                <td>{{ $shelter->shelter_name }}</td>
+                                <td align="center">{{ number_format($shelter->total_keluarga) }}</td>
+                                <td align="center">{{ number_format($shelter->total_mangsa) }}</td>
+                                <td align="center"><b>{{ $shelter->trend }}</b></td>
+                            </tr>
+                            @endforeach
+                        @endforeach
+                    @endforeach
+                @endforeach
+            </tbody>
+        </table>
     </body>
 
     <script>

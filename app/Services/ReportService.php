@@ -10,6 +10,22 @@ class ReportService {
     public function reportDetails($report)
     {
         //
+        // get previous report
+        $previous_report = $this->findPreviousReport($report);
+
+        $previous_mangsa = 0;
+        if($previous_report) {
+            $previous_mangsa = $previous_report->details()->sum('total_mangsa');
+        }
+
+        // get summary from the report
+        $summary_trend = 'Tidak Berubah';
+        if($report->details()->sum('total_mangsa') > $previous_mangsa) {
+            $summary_trend = 'Meningkat';
+        } elseif($report->details()->sum('total_mangsa') < $previous_mangsa) {
+            $summary_trend = 'Menurun';
+        }
+
         $summary = [
             'total_negeri' => $report->details()->groupBy('state_id')->get()->count(),
             'total_daerah' => $report->details()->groupBy('district_id')->get()->count(),
@@ -17,12 +33,14 @@ class ReportService {
             'total_mangsa' => $report->details()->sum('total_mangsa'),
             'total_kematian' => $report->details()->sum('total_kematian'),
             'total_pps_buka' => $report->details()->where('shelter_is_active', 1)->count(),
-            'total_pps_tutup' => $report->details()->where('shelter_is_active', 0)->count()
+            'total_pps_tutup' => $report->details()->where('shelter_is_active', 0)->count(),
+            'trend' => $summary_trend
         ];
 
         $disaster_by_state = DB::select("SELECT
             a.state_id,
             b.name AS state,
+            count(a.district_id) AS total_district,
             sum(a.total_keluarga) AS total_keluarga,
             sum(a.total_mangsa) AS total_mangsa,
             sum(a.total_kematian) AS total_kematian,
@@ -62,23 +80,77 @@ class ReportService {
                 GROUP BY a.state_id;");
 
             foreach($states as $state) {
-                $shelters = DB::select("SELECT
-                    a.shelter_id,
-                    b.name AS shelter_name,
-                    a.total_keluarga,
-                    a.total_mangsa,
-                    a.total_kematian
+                // compare with the previous report
+                $prev_mangsa_state = ($previous_report ? $previous_report->details()->where('state_id', $state->state_id)->sum('total_mangsa') : 0);
+
+                $state_trend = 'Tidak Berubah';
+                if($state->total_mangsa > $prev_mangsa_state) {
+                    $state_trend = 'Meningkat';
+                } elseif($state->total_mangsa < $prev_mangsa_state) {
+                    $state_trend = 'Menurun';
+                } else {
+                    $state_trend = 'Tidak Berubah';
+                }
+                $state->trend = $state_trend;
+
+                $districts = DB::select("SELECT
+                    a.state_id,
+                    a.district_id,
+                    b.name AS district,
+                    sum(a.total_keluarga) AS total_keluarga,
+                    sum(a.total_mangsa) AS total_mangsa,
+                    sum(a.total_kematian) AS total_kematian,
+                    sum(IF(a.shelter_is_active = 1, 1, 0)) AS total_pps_buka,
+                    sum(IF(a.shelter_is_active = 0, 1, 0)) AS total_pps_tutup
                     FROM report_details AS a
-                    LEFT JOIN shelters AS b ON a.shelter_id = b.id
-                    WHERE a.report_id = ". $report->id ."
-                    AND a.kategori_id = ". $type->kategori_id ."
-                    AND a.state_id = ". $state->state_id);
+                    LEFT JOIN dd_districts AS b ON a.district_id = b.id
+                    WHERE a.kategori_id = ". $type->kategori_id ."
+                    AND a.state_id = ". $state->state_id ."
+                    GROUP BY a.state_id, a.district_id;");
 
-                // foreach($shelters as $shelter) {
-                //     $shelter->previous_detail = $this->getPreviousShelterDetail($report, $type->kategori_id, $shelter->shelter_id);
-                // }
+                foreach($districts as $district) {
+                    $shelters = DB::select("SELECT
+                        a.disaster_id,
+                        a.state_id,
+                        a.shelter_id,
+                        b.name AS shelter_name,
+                        a.total_keluarga,
+                        a.total_mangsa,
+                        a.total_kematian
+                        FROM report_details AS a
+                        LEFT JOIN shelters AS b ON a.shelter_id = b.id
+                        WHERE a.report_id = ". $report->id ."
+                        AND a.kategori_id = ". $type->kategori_id ."
+                        AND a.state_id = ". $state->state_id ."
+                        AND a.district_id = ". $district->district_id);
 
-                $state->shelters = $shelters;
+                    // compare with previous report
+                    foreach($shelters as $shelter) {
+                        if($previous_report != null) {
+                            $prev_shelter = $previous_report->details()
+                                ->where('disaster_id', $shelter->disaster_id)
+                                ->where('state_id', $shelter->state_id)
+                                ->where('shelter_id', $shelter->shelter_id)
+                                ->first();
+
+                            $trend = 'Tidak Berubah';
+                            if($prev_shelter) {
+                                if($shelter->total_mangsa > $prev_shelter->total_mangsa) {
+                                    $trend = 'Meningkat';
+                                } elseif($shelter->total_mangsa < $prev_shelter->total_mangsa) {
+                                    $trend = 'Menurun';
+                                } else {
+                                    $trend = 'Tidak Berubah';
+                                }
+                            }
+                            $shelter->trend = $trend;
+                        }
+                    }
+
+                    $district->shelters = $shelters;
+                }
+
+                $state->districts = $districts;
             }
 
             $type->states = $states;
