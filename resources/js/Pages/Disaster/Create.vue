@@ -97,7 +97,7 @@ let disaster = reactive({
     parish_id: null,
     latitude: null,
     longitude: null,
-    status: null
+    status: 'Aktif'
 });
 
 let filter = {}
