@@ -25,7 +25,8 @@ class DatabaseSeeder extends Seeder
             DistrictSeeder::class,
             ParishSeeder::class,
             DisasterTypeSeeder::class,
-            DisasterLevel::class
+            DisasterLevel::class,
+            ShelterSeeder::class
         ]);
     }
 }

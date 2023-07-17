@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('total_keluarga')->default(0);
             $table->integer('total_mangsa')->default(0);
             $table->integer('total_kematian')->default(0);
-            $table->tinyIncrements('shelter_is_active')->default(0);
+            $table->tinyInteger('shelter_is_active')->default(0);
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
         });
