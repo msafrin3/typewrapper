@@ -11,6 +11,8 @@ class State extends Model
 
     protected $table = 'dd_states';
 
+    protected $fillable = ['name'];
+
     public function districts()
     {
         return $this->hasMany(District::class);

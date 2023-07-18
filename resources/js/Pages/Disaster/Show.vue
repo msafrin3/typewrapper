@@ -211,7 +211,7 @@ let initMap = () => {
                                         <tr>
                                             <th>Tarikh Mula</th>
                                             <td>:</td>
-                                            <td>{{ format(new Date(disaster.datetime_start), 'yyyy-MM-dd HH:mm:ii') }}</td>
+                                            <td>{{ format(new Date(disaster.datetime_start), 'yyyy-MM-dd HH:mm:ss') }}</td>
                                         </tr>
                                         <tr>
                                             <th>Status</th>
@@ -258,8 +258,8 @@ let initMap = () => {
                                     <td class="text-center">{{ shelter.total_keluarga.toLocaleString() }}</td>
                                     <td class="text-center">{{ shelter.total_mangsa.toLocaleString() }}</td>
                                     <td class="text-center">{{ shelter.total_kematian.toLocaleString() }}</td>
-                                    <td>{{ format(new Date(shelter.dibuka_pada), 'yyyy-MM-dd HH:mm:ii') }}</td>
-                                    <td>{{ shelter.ditutup_pada == null ? '-' : format(new Date(shelter.ditutup_pada), 'yyyy-MM-dd HH:mm:ii') }}</td>
+                                    <td>{{ format(new Date(shelter.dibuka_pada), 'yyyy-MM-dd HH:mm:ss') }}</td>
+                                    <td>{{ shelter.ditutup_pada == null ? '-' : format(new Date(shelter.ditutup_pada), 'yyyy-MM-dd HH:mm:ss') }}</td>
                                     <td>
                                         <div class="d-flex gap-2">
                                             <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#editPPSModal" @click="editPPS(shelter)">

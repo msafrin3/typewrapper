@@ -56,7 +56,7 @@ const props = defineProps({
                             <td>{{ disaster.district.name }}</td>
                             <td>{{ disaster.parish_id == null ? '' : disaster.parish.name }}</td>
                             <td>{{ disaster.name }}</td>
-                            <td>{{ format(new Date(disaster.datetime_start), 'yyyy-MM-dd HH:mm:ii') }}</td>
+                            <td>{{ format(new Date(disaster.datetime_start), 'yyyy-MM-dd HH:mm:ss') }}</td>
                             <td>{{ disaster.status }}</td>
                             <td>
                                 <div class="d-flex gap-2">

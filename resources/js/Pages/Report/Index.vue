@@ -70,7 +70,7 @@ let generate = () => {
                     <tbody>
                         <tr v-for="(report, index) in reports.data">
                             <td>{{ iterationPaginated(reports, index) }}</td>
-                            <td>{{ format(new Date(report.report_date), 'yyyy-MM-dd HH:mm:ii') }}</td>
+                            <td>{{ format(new Date(report.report_date), 'yyyy-MM-dd HH:mm:ss') }}</td>
                             <td>{{ report.created_by.name }}</td>
                             <td>
                                 <div class="d-flex gap-2">
