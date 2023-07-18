@@ -15,7 +15,7 @@ const breadcrumbs = [
         active: true
     },
     {
-        title: 'State Management',
+        title: 'Pengurusan Negeri',
         active: false,
         link: route('setting.state.index')
     }
@@ -28,10 +28,10 @@ const props = defineProps({
 </script>
 
 <template>
-    <Head title="" />
+    <Head title="Pengurusan Negeri" />
 
     <AuthenticatedLayout>
-        <ContentHeader title="" :breadcrumbs="breadcrumbs" />
+        <ContentHeader title="Pengurusan Negeri" :breadcrumbs="breadcrumbs" />
 
         <!-- <div class="mb-3">
             <Link :href="route('setting.state.create')" class="btn btn-success">
@@ -41,7 +41,7 @@ const props = defineProps({
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title mb-0">List Meta</h3>
+                <h3 class="card-title mb-0">Senarai Negeri</h3>
             </div>
             <div class="card-body">
                 <Table :data-route="route('setting.state.index')" :filters="filters" :data="states">
@@ -61,7 +61,7 @@ const props = defineProps({
                             <td>
                                 <div class="d-flex gap-2">
                                     <Link :href="route('setting.state.edit', state)" class="btn btn-info btn-sm">
-                                        <i class="ri-edit-2-fill align-bottom me-1"></i> Edit
+                                        <i class="ri-edit-2-fill align-bottom me-1"></i> Kemaskini
                                     </Link>
                                 </div>
                             </td>

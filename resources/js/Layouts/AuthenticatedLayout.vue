@@ -555,7 +555,10 @@ $(window).resize(function() {
                             <div class="collapse menu-dropdown" :class="{ 'show': $page.url.startsWith('/setting') }" id="menusetting">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <Link :href="route('setting.state.index')" class="nav-link" :class="{ 'active': $page.url.startsWith('/setting/state') }"> State </Link>
+                                        <Link :href="route('setting.state.index')" class="nav-link" :class="{ 'active': $page.url.startsWith('/setting/state') }"> Negeri </Link>
+                                    </li>
+                                    <li class="nav-item">
+                                        <Link :href="route('setting.district.index')" class="nav-link" :class="{ 'active': $page.url.startsWith('/setting/district') }"> Daerah </Link>
                                     </li>
                                 </ul>
                             </div>

@@ -11,6 +11,8 @@ class District extends Model
 
     protected $table = 'dd_districts';
 
+    protected $fillable = ['state_id', 'name'];
+
     public function state()
     {
         return $this->belongsTo(State::class);

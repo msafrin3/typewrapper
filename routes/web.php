@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Settings\DistrictController;
 use App\Http\Controllers\Settings\StateController;
 use App\Http\Controllers\ShelterController;
 use Illuminate\Foundation\Application;
@@ -62,6 +63,7 @@ Route::middleware('auth')->group(function () {
     // REGIONS
     Route::prefix('setting')->as('setting.')->group(function() {
         Route::resource('state', StateController::class);
+        Route::resource('district', DistrictController::class);
     });
 
     // SHELTERS

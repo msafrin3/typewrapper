@@ -15,7 +15,7 @@ class StateController extends Controller
     public function index(Request $request)
     {
         $states = State::query()
-            ->when($request->has('search'), function($query, $search) {
+            ->when($request->input('search'), function($query, $search) {
                 $query->where('name', 'like', '%' . $search . '%');
             })
             ->paginate(20)
