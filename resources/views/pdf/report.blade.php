@@ -335,7 +335,7 @@ $date = new Carbon($report->report_date);
                                         style="fill:none;stroke:#ff0000;stroke-width:0.36500001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
                                 </g>
                                 <g
-                                    id="staet15"
+                                    id="state15"
                                     transform="translate(-0.12289006,-43.885111)" style="display:none">
                                     <text
                                         id="text1635"
