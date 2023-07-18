@@ -93,8 +93,6 @@ class ReportController extends Controller
         }
         
         return $pdf->inline();
-
-        return view('pdf.report', ['report' => $report]);
     }
 
     /**

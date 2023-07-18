@@ -14,6 +14,13 @@ const iterationPaginated = function (data, index) {
 const iteration = function (data, index) {
     return index + 1;
 }
+const number_format = function(number) {
+    if(number == null || number == '' || number == 0) {
+        return 0;
+    } else {
+        return parseInt(number).toLocaleString();
+    }
+}
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -26,6 +33,7 @@ createInertiaApp({
 
         myApp.config.globalProperties.$iterationPaginated = iterationPaginated;
         myApp.config.globalProperties.$iteration = iteration;
+        myApp.config.globalProperties.$number_format = number_format;
         myApp.mount(el);
         return myApp;
     },

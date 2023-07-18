@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 
 const app = getCurrentInstance();
 const iteration = app.appContext.config.globalProperties.$iteration;
+const number_format = app.appContext.config.globalProperties.$number_format;
 
 const props = defineProps({
     disaster: Object,
@@ -49,9 +50,9 @@ let disaster_shelter = reactive({
     district_id: null,
     parish_id: null,
     shelter_id: null,
-    total_keluarga: null,
-    total_mangsa: null,
-    total_kematian: null,
+    total_keluarga: 0,
+    total_mangsa: 0,
+    total_kematian: 0,
     dibuka_pada: null,
     ditutup_pada: null
 });
@@ -72,9 +73,9 @@ let e_disaster_shelter = reactive({
     district_id: null,
     parish_id: null,
     shelter_id: null,
-    total_keluarga: null,
-    total_mangsa: null,
-    total_kematian: null,
+    total_keluarga: 0,
+    total_mangsa: 0,
+    total_kematian: 0,
     dibuka_pada: null,
     ditutup_pada: null
 });
@@ -255,9 +256,9 @@ let initMap = () => {
                                     <td>{{ iteration(disaster_shelters, index) }}</td>
                                     <td>{{ shelter.shelter.district.name }}</td>
                                     <td>{{ shelter.shelter.name }}</td>
-                                    <td class="text-center">{{ shelter.total_keluarga.toLocaleString() }}</td>
-                                    <td class="text-center">{{ shelter.total_mangsa.toLocaleString() }}</td>
-                                    <td class="text-center">{{ shelter.total_kematian.toLocaleString() }}</td>
+                                    <td class="text-center">{{ number_format(shelter.total_keluarga) }}</td>
+                                    <td class="text-center">{{ number_format(shelter.total_mangsa) }}</td>
+                                    <td class="text-center">{{ number_format(shelter.total_kematian) }}</td>
                                     <td>{{ format(new Date(shelter.dibuka_pada), 'yyyy-MM-dd HH:mm:ss') }}</td>
                                     <td>{{ shelter.ditutup_pada == null ? '-' : format(new Date(shelter.ditutup_pada), 'yyyy-MM-dd HH:mm:ss') }}</td>
                                     <td>

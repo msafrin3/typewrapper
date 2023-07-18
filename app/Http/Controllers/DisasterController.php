@@ -20,6 +20,7 @@ class DisasterController extends Controller
     public function index(Request $request)
     {
         $disasters = Disaster::query()
+            ->orderBy('datetime_start', 'desc')
             ->with(['kategori', 'state', 'district', 'parish', 'createdBy', 'level'])
             ->paginate(10)
             ->withQueryString();

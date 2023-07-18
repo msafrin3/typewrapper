@@ -127,6 +127,7 @@ class ReportService {
 
                     // compare with previous report
                     foreach($shelters as $shelter) {
+                        $trend = 'Tidak Berubah';
                         if($previous_report != null) {
                             $prev_shelter = $previous_report->details()
                                 ->where('disaster_id', $shelter->disaster_id)
@@ -134,7 +135,6 @@ class ReportService {
                                 ->where('shelter_id', $shelter->shelter_id)
                                 ->first();
 
-                            $trend = 'Tidak Berubah';
                             if($prev_shelter) {
                                 if($shelter->total_mangsa > $prev_shelter->total_mangsa) {
                                     $trend = 'Meningkat';
@@ -144,8 +144,8 @@ class ReportService {
                                     $trend = 'Tidak Berubah';
                                 }
                             }
-                            $shelter->trend = $trend;
                         }
+                        $shelter->trend = $trend;
                     }
 
                     $district->shelters = $shelters;

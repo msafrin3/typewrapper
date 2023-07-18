@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('disaster_id')->constrained('disasters');
             $table->foreignId('shelter_id')->constrained('shelters');
-            $table->integer('total_keluarga')->default(0);
-            $table->integer('total_mangsa')->default(0);
-            $table->integer('total_kematian')->default(0);
+            $table->integer('total_keluarga')->nullable()->default(0);
+            $table->integer('total_mangsa')->nullable()->default(0);
+            $table->integer('total_kematian')->nullable()->default(0);
             $table->timestamp('dibuka_pada');
             $table->timestamp('ditutup_pada')->nullable();
             $table->string('pic_name')->nullable();

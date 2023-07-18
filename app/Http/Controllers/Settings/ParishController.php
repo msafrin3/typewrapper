@@ -33,7 +33,7 @@ class ParishController extends Controller
             ->orderBy('district_id')
             ->orderBy('name')
             ->with(['state', 'district'])
-            ->paginate(20)
+            ->paginate(10)
             ->withQueryString();
 
         return Inertia::render('Settings/Parish/Index', ['parishes' => $parishes, 'filters' => $request->only('search')]);

@@ -176,7 +176,6 @@ $date = new Carbon($report->report_date);
                                     </cc:Work>
                                 </rdf:RDF>
                             </metadata>
-                            <!-- Land -->
                             <g
                                 inkscape:label="Layer 1"
                                 inkscape:groupmode="layer"
@@ -315,7 +314,6 @@ $date = new Carbon($report->report_date);
                                         d="m 38.743737,192.78939 -2.159146,0.005 0.187399,-32.98218 h -4.49757 v 0"
                                         style="fill:none;stroke:#f50f0f;stroke-width:0.36500001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
                                 </g>
-                                <!-- Label State -->
                                 <g
                                     id="state9"
                                     transform="translate(-0.12289006,-43.885111)" style="display:none">

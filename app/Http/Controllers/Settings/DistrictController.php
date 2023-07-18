@@ -26,7 +26,7 @@ class DistrictController extends Controller
             ->orderBy('state_id')
             ->orderBy('name')
             ->with('state')
-            ->paginate(20)
+            ->paginate(10)
             ->withQueryString();
 
         return Inertia::render('Settings/District/Index', ['districts' => $districts, 'filters' => $request->only('search')]);

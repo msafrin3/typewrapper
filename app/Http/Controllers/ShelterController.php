@@ -19,8 +19,18 @@ class ShelterController extends Controller
     {
         $shelters = Shelter::query()
             ->when($request->input('search'), function($query, $search) {
-                $query->where('name', 'like', '%' . $search . '%');
+                $query->whereHas('state', function($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%');
+                });
+                $query->whereHas('district', function($q) use ($search) {
+                    $q->orWhere('name', 'like', '%' . $search . '%');
+                });
+                $query->orWhereHas('parish', function($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%');
+                });
+                $query->orWhere('name', 'like', '%' . $search . '%');
             })
+            ->orderBy('name')
             ->with(['shelterType', 'state', 'district', 'parish'])
             ->paginate(20)
             ->withQueryString();
