@@ -560,6 +560,9 @@ $(window).resize(function() {
                                     <li class="nav-item">
                                         <Link :href="route('setting.district.index')" class="nav-link" :class="{ 'active': $page.url.startsWith('/setting/district') }"> Daerah </Link>
                                     </li>
+                                    <li class="nav-item">
+                                        <Link :href="route('setting.parish.index')" class="nav-link" :class="{ 'active': $page.url.startsWith('/setting/parish') }"> Mukim </Link>
+                                    </li>
                                 </ul>
                             </div>
                         </li>

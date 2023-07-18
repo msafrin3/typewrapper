@@ -11,6 +11,8 @@ class Parish extends Model
 
     protected $table = 'dd_parishes';
 
+    protected $fillable = ['state_id', 'district_id', 'name'];
+
     public function state()
     {
         return $this->belongsTo(State::class);
