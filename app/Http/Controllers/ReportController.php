@@ -86,7 +86,7 @@ class ReportController extends Controller
             'data' => (new ReportService())->reportDetails($report)
         ];
 
-        $pdf = PDF::loadView('pdf.test', $data);
+        $pdf = PDF::loadView('pdf.report', $data);
 
         if($request->has('download')) {
             return $pdf->download('Laporan Terkini Kejadian Bencana.pdf');
