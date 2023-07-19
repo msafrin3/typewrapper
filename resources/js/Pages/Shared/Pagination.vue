@@ -1,6 +1,8 @@
 <script>
 import { Link } from '@inertiajs/vue3';
-import { onMounted } from 'vue';
+import { getCurrentInstance, onMounted } from 'vue';
+
+const app = getCurrentInstance();
 export default {
     components: {
         Link
@@ -10,8 +12,11 @@ export default {
     },
     data() {
         return {
-            currentProtocol: window.location.protocol
+            currentProtocol: ''
         }
+    },
+    mounted() {
+        this.currentProtocol = window.location.protocol;
     }
 }
 </script>
