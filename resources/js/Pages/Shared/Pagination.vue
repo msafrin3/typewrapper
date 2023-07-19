@@ -7,16 +7,13 @@ export default {
     },
     props: {
         links: Array
+    },
+    data() {
+        return {
+            currentProtocol: window.location.protocol
+        }
     }
 }
-
-let protocol;
-
-onMounted(() => {
-    protocol = window.location.protocol;
-});
-
-console.log(protocol);
 </script>
 
 <template>
@@ -26,7 +23,7 @@ console.log(protocol);
                 v-for="link in links"
                 :key="link.id"
                 :is="link.url ? 'Link' : 'span'" 
-                :href="(protocol == 'https' ? link.url.replace('http:', 'https:') : link.url)" 
+                :href="(currentProtocol == 'https' ? link.url.replace('http:', 'https:') : link.url)" 
                 v-html="link.label" 
                 class="btn"
                 :class="{ 'disabled': !link.url, 'btn-primary': link.active, 'btn-light': !link.active }"
