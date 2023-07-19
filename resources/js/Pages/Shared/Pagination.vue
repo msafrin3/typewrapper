@@ -29,7 +29,7 @@ export default {
                 v-for="link in links"
                 :key="link.id"
                 :is="link.url ? 'Link' : 'span'" 
-                :href="(currentProtocol == 'https' ? link.url.replace('http:', 'https:') : link.url)" 
+                :href="(currentProtocol == 'https:' ? link.url.replace('http:', 'https:') : link.url)" 
                 v-html="link.label" 
                 class="btn"
                 :class="{ 'disabled': !link.url, 'btn-primary': link.active, 'btn-light': !link.active }"
