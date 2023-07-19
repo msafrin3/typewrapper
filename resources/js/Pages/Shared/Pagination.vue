@@ -1,13 +1,20 @@
 <script>
-    import { Link } from '@inertiajs/vue3';
-    export default {
-        components: {
-            Link
-        },
-        props: {
-            links: Array
-        }
+import { Link } from '@inertiajs/vue3';
+import { onMounted } from 'vue';
+export default {
+    components: {
+        Link
+    },
+    props: {
+        links: Array
     }
+}
+
+let protocol;
+
+onMounted(() => {
+    protocol = window.location.protocol;
+});
 </script>
 
 <template>
@@ -17,7 +24,7 @@
                 v-for="link in links"
                 :key="link.id"
                 :is="link.url ? 'Link' : 'span'" 
-                :href="(window.location.protocol == 'https' ? link.url.replace('http:', 'https:') : link.url)" 
+                :href="(protocol == 'https' ? link.url.replace('http:', 'https:') : link.url)" 
                 v-html="link.label" 
                 class="btn"
                 :class="{ 'disabled': !link.url, 'btn-primary': link.active, 'btn-light': !link.active }"
