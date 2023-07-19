@@ -17,6 +17,7 @@ export default {
     },
     mounted() {
         this.currentProtocol = window.location.protocol;
+        console.log('currentProtocol: ', this.currentProtocol);
     }
 }
 </script>
