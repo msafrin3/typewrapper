@@ -15,6 +15,8 @@ let protocol;
 onMounted(() => {
     protocol = window.location.protocol;
 });
+
+console.log(protocol);
 </script>
 
 <template>
