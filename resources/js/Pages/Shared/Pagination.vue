@@ -8,6 +8,8 @@
             links: Array
         }
     }
+
+    console.log('protocol:', location.protocol);
 </script>
 
 <template>
@@ -17,7 +19,7 @@
                 v-for="link in links"
                 :key="link.id"
                 :is="link.url ? 'Link' : 'span'" 
-                :href="link.url" 
+                :href="(location.protocol == 'https' ? link.url.replace('http:', 'https:') : link.url)" 
                 v-html="link.label" 
                 class="btn"
                 :class="{ 'disabled': !link.url, 'btn-primary': link.active, 'btn-light': !link.active }"
