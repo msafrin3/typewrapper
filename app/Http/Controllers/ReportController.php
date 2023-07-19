@@ -86,13 +86,11 @@ class ReportController extends Controller
             'data' => (new ReportService())->reportDetails($report)
         ];
 
-        $pdf = PDF::loadView('pdf.report', $data);
+        $pdf = PDF::loadView('pdf.test', $data);
 
         if($request->has('download')) {
             return $pdf->download('Laporan Terkini Kejadian Bencana.pdf');
         }
-
-        return view('pdf.report', $data);
         
         return $pdf->inline();
     }
