@@ -101,7 +101,7 @@ let restoreUser = (user) => {
                             <td>{{ iterationPaginated(users, index) }}</td>
                             <td>{{ user.name }}</td>
                             <td>{{ user.email }}</td>
-                            <td>
+                            <!-- <td>
                                 <ul>
                                     <li v-for="role in user.roles">{{ role.name }}</li>
                                 </ul>
@@ -110,8 +110,8 @@ let restoreUser = (user) => {
                                 <ul>
                                     <li v-for="permission in user.permissions">{{ permission.name }}</li>
                                 </ul>
-                            </td>
-                            <!-- <td>
+                            </td> -->
+                            <td>
                                 <div class="d-flex flex-wrap gap-2">
                                     <span class="badge badge-soft-secondary fs-11" v-for="role in user.roles">{{ role.name }}</span>
                                 </div>
@@ -120,7 +120,7 @@ let restoreUser = (user) => {
                                 <div class="d-flex flex-wrap gap-2">
                                     <span class="badge badge-soft-secondary fs-11" v-for="permission in user.permissions">{{ permission.name }}</span>
                                 </div>
-                            </td> -->
+                            </td>
                             <td>{{ format(new Date(user.created_at), 'yyyy-MM-dd HH:mm:ss') }}</td>
                             <td>
                                 <div class="d-flex flex-wrap gap-2">

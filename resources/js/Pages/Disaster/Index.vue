@@ -23,7 +23,7 @@ const props = defineProps({
     <AuthenticatedLayout>
         <ContentHeader title="Pengurusan Bencana" :breadcrumbs="breadcrumbs" />
 
-        <div class="mb-3">
+        <div class="mb-3" v-if="$page.props.auth.user.can.includes('create-bencana')">
             <Link :href="route('disaster.create')" class="btn btn-success">
                 <i class="ri-add-circle-fill fs-15 align-bottom me-1"></i> Add New
             </Link>
@@ -66,7 +66,7 @@ const props = defineProps({
                                     <Link :href="route('disaster.show', disaster)" class="btn btn-info btn-sm">
                                         <i class="ri-eye-2-line align-bottom me-1"></i> Lihat
                                     </Link>
-                                    <button type="button" class="btn btn-danger btn-sm">
+                                    <button type="button" class="btn btn-danger btn-sm" v-if="$page.props.auth.user.can.includes('delete-bencana')">
                                         <i class="ri-delete-bin-line align-bottom me-1"></i> Delete
                                     </button>
                                 </div>

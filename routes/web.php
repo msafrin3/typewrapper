@@ -69,17 +69,25 @@ Route::middleware('auth')->group(function () {
     });
 
     // SHELTERS
-    Route::resource('shelter', ShelterController::class);
+    Route::prefix('shelter')->as('shelter.')->group(function() {
+        Route::get('/', [App\Http\Controllers\ShelterController::class, 'index'])->name('index')->middleware('can:view-pps');
+        Route::get('/create', [App\Http\Controllers\ShelterController::class, 'create'])->name('create')->middleware('can:create-pps');
+        Route::post('/create', [App\Http\Controllers\ShelterController::class, 'store'])->name('store')->middleware('can:create-pps');
+        Route::get('/{shelter}/show', [App\Http\Controllers\ShelterController::class, 'show'])->name('show')->middleware('can:view-pps');
+        Route::get('/{shelter}/edit', [App\Http\Controllers\ShelterController::class, 'edit'])->name('edit')->middleware('can:edit-pps');
+        Route::post('/{shelter}/edit', [App\Http\Controllers\ShelterController::class, 'update'])->name('update')->middleware('can:edit-pps');
+        Route::delete('/{shelter}/delete', [App\Http\Controllers\ShelterController::class, 'destroy'])->name('destroy')->middleware('can:delete-pps');
+    });
 
     // DISASTER
     Route::prefix('disaster')->as('disaster.')->group(function() {
-        Route::get('/', [App\Http\Controllers\DisasterController::class, 'index'])->name('index');
-        Route::get('/create', [App\Http\Controllers\DisasterController::class, 'create'])->name('create');
-        Route::post('/create', [App\Http\Controllers\DisasterController::class, 'store'])->name('store');
-        Route::get('/{disaster}/show', [App\Http\Controllers\DisasterController::class, 'show'])->name('show');
-        Route::get('/{disaster}/edit', [App\Http\Controllers\DisasterController::class, 'edit'])->name('edit');
-        Route::post('/{disaster}/edit', [App\Http\Controllers\DisasterController::class, 'update'])->name('update');
-        Route::delete('/{disaster}/delete', [App\Http\Controllers\DisasterController::class, 'destroy'])->name('destroy');
+        Route::get('/', [App\Http\Controllers\DisasterController::class, 'index'])->name('index')->middleware('can:view-bencana');
+        Route::get('/create', [App\Http\Controllers\DisasterController::class, 'create'])->name('create')->middleware('can:create-bencana');
+        Route::post('/create', [App\Http\Controllers\DisasterController::class, 'store'])->name('store')->middleware('can:create-bencana');
+        Route::get('/{disaster}/show', [App\Http\Controllers\DisasterController::class, 'show'])->name('show')->middleware('can:view-bencana');
+        Route::get('/{disaster}/edit', [App\Http\Controllers\DisasterController::class, 'edit'])->name('edit')->middleware('can:edit-bencana');
+        Route::post('/{disaster}/edit', [App\Http\Controllers\DisasterController::class, 'update'])->name('update')->middleware('can:edit-bencana');
+        Route::delete('/{disaster}/delete', [App\Http\Controllers\DisasterController::class, 'destroy'])->name('destroy')->middleware('can:delete-bencana');
 
         Route::prefix('{disaster}/shelter')->as('shelter.')->group(function() {
             Route::post('/create', [App\Http\Controllers\DisasterShelterController::class, 'store'])->name('store');

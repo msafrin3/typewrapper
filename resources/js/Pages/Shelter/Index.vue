@@ -49,7 +49,7 @@ let deleteShelter = (shelter) => {
     <AuthenticatedLayout>
         <ContentHeader title="Pusat Pemindahan" :breadcrumbs="breadcrumbs" />
 
-        <div class="mb-3">
+        <div class="mb-3" v-if="$page.props.auth.user.can.includes('create-pps')">
             <Link :href="route('shelter.create')" class="btn btn-success">
                 <i class="ri-add-circle-fill fs-15 align-bottom me-1"></i> Add New
             </Link>
@@ -82,10 +82,10 @@ let deleteShelter = (shelter) => {
                             <td>{{ shelter.shelter_type.name }}</td>
                             <td>
                                 <div class="d-flex gap-2">
-                                    <Link :href="route('shelter.edit', shelter)" class="btn btn-info btn-sm">
+                                    <Link :href="route('shelter.edit', shelter)" class="btn btn-info btn-sm" v-if="$page.props.auth.user.can.includes('edit-pps')">
                                         <i class="ri-edit-2-fill align-bottom me-1"></i> Edit
                                     </Link>
-                                    <button type="button" class="btn btn-danger btn-sm" @click="deleteShelter(shelter)">
+                                    <button type="button" class="btn btn-danger btn-sm" @click="deleteShelter(shelter)" v-if="$page.props.auth.user.can.includes('delete-pps')">
                                         <i class="ri-delete-bin-fill align-bottom me-1"></i> Delete
                                     </button>
                                 </div>

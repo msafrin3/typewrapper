@@ -34,6 +34,16 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'auth.user.can' => function () use ($request) {
+                if ($request->user()) {
+                    return $request->user()->getAllPermissions()->pluck('name');
+                }
+            },
+            'auth.user.roles' => function () use ($request) {
+                if ($request->user()) {
+                    return $request->user()->roles()->pluck('name');
+                }
+            },
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
                     'location' => $request->url(),
