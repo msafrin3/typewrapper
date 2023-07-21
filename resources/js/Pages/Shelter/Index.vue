@@ -51,7 +51,7 @@ let deleteShelter = (shelter) => {
 
         <div class="mb-3" v-if="$page.props.auth.user.can.includes('create-pps')">
             <Link :href="route('shelter.create')" class="btn btn-success">
-                <i class="ri-add-circle-fill fs-15 align-bottom me-1"></i> Add New
+                <i class="ri-add-circle-fill align-bottom me-1"></i> Add New
             </Link>
         </div>
 

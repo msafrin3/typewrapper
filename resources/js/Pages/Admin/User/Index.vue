@@ -74,7 +74,7 @@ let restoreUser = (user) => {
         <ContentHeader title="User Management" :breadcrumbs="breadcrumbs" />
 
         <div class="mb-3">
-            <Link :href="route('admin.user.create')" class="btn btn-success">
+            <Link :href="route('admin.user.create')" class="btn btn-success" v-if="$page.props.auth.user.can.includes('create-user')">
                 <i class="ri-add-circle-fill align-bottom me-1"></i> Add New
             </Link>
         </div>

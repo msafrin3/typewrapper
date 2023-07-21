@@ -75,7 +75,7 @@ let deleteRole = (role) => {
                             <th>#</th>
                             <th>Name</th>
                             <th>Guard Name</th>
-                            <th>Permissions</th>
+                            <th width="50%">Permissions</th>
                             <th>Created At</th>
                             <th>Action</th>
                         </tr>

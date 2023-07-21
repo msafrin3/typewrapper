@@ -25,7 +25,7 @@ const props = defineProps({
 
         <div class="mb-3" v-if="$page.props.auth.user.can.includes('create-bencana')">
             <Link :href="route('disaster.create')" class="btn btn-success">
-                <i class="ri-add-circle-fill fs-15 align-bottom me-1"></i> Add New
+                <i class="ri-add-circle-fill align-bottom me-1"></i> Add New
             </Link>
         </div>
 

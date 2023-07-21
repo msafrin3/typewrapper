@@ -47,7 +47,7 @@ let generate = () => {
     <AuthenticatedLayout>
         <ContentHeader title="Laporan Terkini Bencana" :breadcrumbs="breadcrumbs" />
 
-        <div class="mb-3">
+        <div class="mb-3" v-if="$page.props.auth.user.can.includes('create-laporan-terkini')">
             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalGenerate">
                 <i class="ri-add-circle-fill align-bottom me-1"></i> Jana Laporan
             </button>
@@ -80,7 +80,7 @@ let generate = () => {
                                     <a :href="route('report.show', {'report': report, 'download': true})" class="btn btn-success btn-sm" target="_blank">
                                         <i class="ri-download-2-line align-bottom me-1"></i> Muat Turun
                                     </a>
-                                    <button type="button" class="btn btn-danger btn-sm">
+                                    <button type="button" class="btn btn-danger btn-sm" v-if="$page.props.auth.user.can.includes('delete-laporan-terkini')">
                                         <i class="ri-delete-bin-line align-bottom me-1"></i> Delete
                                     </button>
                                 </div>
