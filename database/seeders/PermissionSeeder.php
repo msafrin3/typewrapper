@@ -17,9 +17,11 @@ class PermissionSeeder extends Seeder
     {
         //
         $arr_permissions = [
-            'view-administrator', 'view-user', 'create-user', 'edit-user', 'delete-user', 'restore-user',
-            'view-role', 'create-role', 'edit-role', 'delete-role',
-            'view-permission', 'create-permission', 'edit-permission', 'delete-permission'
+            'create-bencana','create-laporan-terkini','create-meta','create-meta-data','create-permission','create-pps','create-role',
+            'create-user','delete-bencana','delete-laporan-terkini','delete-meta','delete-meta-data','delete-permission','delete-pps',
+            'delete-role','delete-user','edit-bencana','edit-meta','edit-meta-data','edit-permission','edit-pps','edit-role','edit-user',
+            'view-administrator','view-bencana','view-laporan','view-laporan-terkini','view-meta','view-meta-data','view-permission',
+            'view-pps','view-role','view-user'
         ];
 
         foreach($arr_permissions as $arr_permission) {
