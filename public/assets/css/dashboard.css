@@ -1,0 +1,15 @@
+.flex {
+    display: flex
+}
+.fs-35 {
+    font-size: 35px;
+}
+.fs-38 {
+    font-size: 38px;
+}
+.dashboard-icon {
+    margin: 0 10px 0 10px
+}
+.nowrap {
+    white-space: nowrap;
+}
