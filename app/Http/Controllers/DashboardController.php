@@ -42,7 +42,18 @@ class DashboardController extends Controller
             ];
         }
 
-        return Inertia::render('Dashboard', ['summary' => $summary]);
+        $summary_by_state = DB::select("SELECT
+            state_id,
+            state,
+            count(DISTINCT district_id) AS total_district,
+            sum(total_keluarga) AS total_keluarga,
+            sum(total_mangsa) AS total_mangsa,
+            sum(total_kematian) AS total_kematian,
+            sum(is_active) AS total_pps_aktif
+            FROM v_shelter_summary
+            GROUP BY state_id;");
+
+        return Inertia::render('Dashboard', ['summary' => $summary, 'summary_by_state' => $summary_by_state]);
     }
 
 }
