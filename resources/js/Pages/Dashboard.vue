@@ -52,96 +52,6 @@ let color = (total) => {
     <AuthenticatedLayout>
         <ContentHeader title="Dashboard" :breadcrumbs="breadcrumbs" />
 
-        <!-- <div class="row">
-            <div class="col">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title mb-0">SUMMARY</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="row row-cols-5">
-                            <div class="col mb-3">
-                                <div class="flex text-primary">
-                                    <div>
-                                        <i class="las la-cloud-moon-rain fs-38 dashboard-icon"></i>
-                                    </div>
-                                    <div>
-                                        <div class="nowrap"><b>JUMLAH BENCANA</b></div>
-                                        <div class="fs-14">{{ summary.total_disaster.toLocaleString() }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col mb-3">
-                                <div class="flex text-primary">
-                                    <div>
-                                        <i class="las la-compass fs-38 dashboard-icon"></i>
-                                    </div>
-                                    <div>
-                                        <div class="nowrap"><b>NEGERI</b></div>
-                                        <div class="fs-14">{{ summary.total_state.toLocaleString() }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col mb-3">
-                                <div class="flex text-primary">
-                                    <div>
-                                        <i class="las la-map-marked fs-38 dashboard-icon"></i>
-                                    </div>
-                                    <div>
-                                        <div class="nowrap"><b>DAERAH</b></div>
-                                        <div class="fs-14">{{ summary.total_district.toLocaleString() }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col mb-3">
-                                <div class="flex text-primary">
-                                    <div>
-                                        <i class="las la-users fs-38 dashboard-icon"></i>
-                                    </div>
-                                    <div>
-                                        <div class="nowrap"><b>JUMLAH KELUARGA</b></div>
-                                        <div class="fs-14">{{ summary.total_keluarga.toLocaleString() }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col mb-3">
-                                <div class="flex text-primary">
-                                    <div>
-                                        <i class="las la-procedures fs-38 dashboard-icon"></i>
-                                    </div>
-                                    <div>
-                                        <div class="nowrap"><b>JUMLAH MANGSA</b></div>
-                                        <div class="fs-14">{{ summary.total_mangsa.toLocaleString() }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col mb-3">
-                                <div class="flex text-primary">
-                                    <div>
-                                        <i class="las la-user-alt-slash fs-38 dashboard-icon"></i>
-                                    </div>
-                                    <div>
-                                        <div class="nowrap"><b>JUMLAH KEMATIAN</b></div>
-                                        <div class="fs-14">{{ summary.total_kematian.toLocaleString() }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col mb-3">
-                                <div class="flex text-primary">
-                                    <div>
-                                        <i class="las la-campground fs-38 dashboard-icon"></i>
-                                    </div>
-                                    <div>
-                                        <div class="nowrap"><b>JUMLAH PPS AKTIF</b></div>
-                                        <div class="fs-14">{{ summary.total_pps_aktif.toLocaleString() }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
         <div class="row">
             <div class="col-md-8">
                 <div class="card full-height">
@@ -185,7 +95,7 @@ let color = (total) => {
                     <div class="card-body">
                         <div class="row row-cols-1">
                             <div class="col mb-3">
-                                <div class="flex text-primary">
+                                <div class="flex">
                                     <div>
                                         <i class="las la-cloud-moon-rain fs-38 dashboard-icon"></i>
                                     </div>
@@ -196,7 +106,7 @@ let color = (total) => {
                                 </div>
                             </div>
                             <div class="col mb-3">
-                                <div class="flex text-primary">
+                                <div class="flex">
                                     <div>
                                         <i class="las la-compass fs-38 dashboard-icon"></i>
                                     </div>
@@ -207,7 +117,7 @@ let color = (total) => {
                                 </div>
                             </div>
                             <div class="col mb-3">
-                                <div class="flex text-primary">
+                                <div class="flex">
                                     <div>
                                         <i class="las la-map-marked fs-38 dashboard-icon"></i>
                                     </div>
@@ -218,7 +128,7 @@ let color = (total) => {
                                 </div>
                             </div>
                             <div class="col mb-3">
-                                <div class="flex text-primary">
+                                <div class="flex">
                                     <div>
                                         <i class="las la-users fs-38 dashboard-icon"></i>
                                     </div>
@@ -229,7 +139,7 @@ let color = (total) => {
                                 </div>
                             </div>
                             <div class="col mb-3">
-                                <div class="flex text-primary">
+                                <div class="flex">
                                     <div>
                                         <i class="las la-procedures fs-38 dashboard-icon"></i>
                                     </div>
@@ -240,7 +150,7 @@ let color = (total) => {
                                 </div>
                             </div>
                             <div class="col mb-3">
-                                <div class="flex text-primary">
+                                <div class="flex">
                                     <div>
                                         <i class="las la-user-alt-slash fs-38 dashboard-icon"></i>
                                     </div>
@@ -251,7 +161,7 @@ let color = (total) => {
                                 </div>
                             </div>
                             <div class="col mb-3">
-                                <div class="flex text-primary">
+                                <div class="flex">
                                     <div>
                                         <i class="las la-campground fs-38 dashboard-icon"></i>
                                     </div>
