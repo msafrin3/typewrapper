@@ -11,6 +11,10 @@ const breadcrumbs = [
         link: route('dashboard')
     }
 ];
+
+const props = defineProps({
+    summary: Object
+});
 </script>
 
 <template>
@@ -34,7 +38,7 @@ const breadcrumbs = [
                                     </div>
                                     <div>
                                         <div class="nowrap"><b>JUMLAH BENCANA</b></div>
-                                        <div class="fs-14">2</div>
+                                        <div class="fs-14">{{ summary.total_disaster.toLocaleString() }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -45,7 +49,7 @@ const breadcrumbs = [
                                     </div>
                                     <div>
                                         <div class="nowrap"><b>NEGERI</b></div>
-                                        <div class="fs-14">2</div>
+                                        <div class="fs-14">{{ summary.total_state.toLocaleString() }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -56,7 +60,7 @@ const breadcrumbs = [
                                     </div>
                                     <div>
                                         <div class="nowrap"><b>DAERAH</b></div>
-                                        <div class="fs-14">2</div>
+                                        <div class="fs-14">{{ summary.total_district.toLocaleString() }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -67,7 +71,7 @@ const breadcrumbs = [
                                     </div>
                                     <div>
                                         <div class="nowrap"><b>JUMLAH KELUARGA</b></div>
-                                        <div class="fs-14">2</div>
+                                        <div class="fs-14">{{ summary.total_keluarga.toLocaleString() }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -78,7 +82,7 @@ const breadcrumbs = [
                                     </div>
                                     <div>
                                         <div class="nowrap"><b>JUMLAH MANGSA</b></div>
-                                        <div class="fs-14">2</div>
+                                        <div class="fs-14">{{ summary.total_mangsa.toLocaleString() }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -89,7 +93,7 @@ const breadcrumbs = [
                                     </div>
                                     <div>
                                         <div class="nowrap"><b>JUMLAH KEMATIAN</b></div>
-                                        <div class="fs-14">2</div>
+                                        <div class="fs-14">{{ summary.total_kematian.toLocaleString() }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -100,7 +104,7 @@ const breadcrumbs = [
                                     </div>
                                     <div>
                                         <div class="nowrap"><b>JUMLAH PPS AKTIF</b></div>
-                                        <div class="fs-14">2</div>
+                                        <div class="fs-14">{{ summary.total_pps_aktif.toLocaleString() }}</div>
                                     </div>
                                 </div>
                             </div>

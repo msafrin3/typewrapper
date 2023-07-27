@@ -7,9 +7,16 @@
 .fs-38 {
     font-size: 38px;
 }
+.fs-54 {
+    font-size: 54px;
+}
 .dashboard-icon {
     margin: 0 10px 0 10px
 }
 .nowrap {
     white-space: nowrap;
+}
+.dashboard-total {
+    font-size: 30px;
+    font-weight: 500;
 }
