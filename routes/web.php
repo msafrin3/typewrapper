@@ -120,7 +120,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/create', [App\Http\Controllers\ShelterController::class, 'store'])->name('store')->middleware('can:create-pps');
         Route::get('/{shelter}/show', [App\Http\Controllers\ShelterController::class, 'show'])->name('show')->middleware('can:view-pps');
         Route::get('/{shelter}/edit', [App\Http\Controllers\ShelterController::class, 'edit'])->name('edit')->middleware('can:edit-pps');
-        Route::post('/{shelter}/edit', [App\Http\Controllers\ShelterController::class, 'update'])->name('update')->middleware('can:edit-pps');
+        Route::put('/{shelter}/edit', [App\Http\Controllers\ShelterController::class, 'update'])->name('update')->middleware('can:edit-pps');
         Route::delete('/{shelter}/delete', [App\Http\Controllers\ShelterController::class, 'destroy'])->name('destroy')->middleware('can:delete-pps');
     });
 
@@ -131,7 +131,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/create', [App\Http\Controllers\DisasterController::class, 'store'])->name('store')->middleware('can:create-bencana');
         Route::get('/{disaster}/show', [App\Http\Controllers\DisasterController::class, 'show'])->name('show')->middleware('can:view-bencana');
         Route::get('/{disaster}/edit', [App\Http\Controllers\DisasterController::class, 'edit'])->name('edit')->middleware('can:edit-bencana');
-        Route::post('/{disaster}/edit', [App\Http\Controllers\DisasterController::class, 'update'])->name('update')->middleware('can:edit-bencana');
+        Route::put('/{disaster}/edit', [App\Http\Controllers\DisasterController::class, 'update'])->name('update')->middleware('can:edit-bencana');
         Route::delete('/{disaster}/delete', [App\Http\Controllers\DisasterController::class, 'destroy'])->name('destroy')->middleware('can:delete-bencana');
 
         Route::prefix('{disaster}/shelter')->as('shelter.')->group(function() {
