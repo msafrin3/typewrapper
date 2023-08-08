@@ -21,14 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             PermissionSeeder::class,
-            UserSeeder::class,
-            StateSeeder::class,
-            DistrictSeeder::class,
-            ParishSeeder::class,
-            DisasterTypeSeeder::class,
-            DisasterLevel::class,
-            ShelterTypeSeeder::class,
-            ShelterSeeder::class
+            UserSeeder::class
         ]);
     }
 }

@@ -502,28 +502,6 @@ $(window).resize(function() {
                                 <i class="ri-dashboard-2-line"></i> <span>Dashboard</span>
                             </Link>
                         </li>
-                        <li class="nav-item" v-if="$page.props.auth.user.can.includes('view-bencana')">
-                            <Link class="nav-link menu-link" :href="route('disaster.index')" :class="{ 'active': $page.url.startsWith('/disaster') }">
-                                <i class="ri-thunderstorms-fill"></i> <span>Bencana</span>
-                            </Link>
-                        </li>
-                        <li class="nav-item" v-if="$page.props.auth.user.can.includes('view-pps')">
-                            <Link class="nav-link menu-link" :href="route('shelter.index')" :class="{ 'active': $page.url.startsWith('/shelter') }">
-                                <i class="ri-home-heart-line"></i> <span>Pusat Pemindahan</span>
-                            </Link>
-                        </li>
-                        <li class="nav-item" v-if="$page.props.auth.user.can.includes('view-laporan')">
-                            <a class="nav-link menu-link" href="#menureport" data-bs-toggle="collapse" role="button" v-bind:aria-expanded="$page.url.startsWith('/report')" aria-controls="menureport">
-                                <i class=" ri-file-copy-2-line"></i> <span>Laporan & Statistik</span>
-                            </a>
-                            <div class="collapse menu-dropdown" :class="{ 'show': $page.url.startsWith('/report') }" id="menureport">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item" v-if="$page.props.auth.user.can.includes('view-laporan-terkini')">
-                                        <Link :href="route('report.index')" class="nav-link" :class="{ 'active': $page.url.startsWith('/report') }"> Laporan Terkini Bencana </Link>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
                         <li class="nav-item" v-if="$page.props.auth.user.can.includes('view-administrator')">
                             <a class="nav-link menu-link" href="#menuadmin" data-bs-toggle="collapse" role="button" v-bind:aria-expanded="$page.url.startsWith('/admin')" aria-controls="menuadmin">
                                 <i class="ri-admin-line"></i> <span>Administrator</span>
@@ -544,24 +522,6 @@ $(window).resize(function() {
                                     </li>
                                     <li class="nav-item" v-if="$page.props.auth.user.can.includes('view-meta-data')">
                                         <Link :href="route('admin.meta-data.index')" class="nav-link" :class="{ 'active': $page.url.startsWith('/admin/meta-data') }"> Meta Data Management</Link>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li> <!-- end Dashboard Menu -->
-                        <li class="nav-item" v-if="$page.props.auth.user.roles.includes('superadmin')">
-                            <a class="nav-link menu-link" href="#menusetting" data-bs-toggle="collapse" role="button" v-bind:aria-expanded="$page.url.startsWith('/setting')" aria-controls="menusetting">
-                                <i class="ri-settings-5-line"></i> <span>Settings</span>
-                            </a>
-                            <div class="collapse menu-dropdown" :class="{ 'show': $page.url.startsWith('/setting') }" id="menusetting">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <Link :href="route('setting.state.index')" class="nav-link" :class="{ 'active': $page.url.startsWith('/setting/state') }"> Negeri </Link>
-                                    </li>
-                                    <li class="nav-item">
-                                        <Link :href="route('setting.district.index')" class="nav-link" :class="{ 'active': $page.url.startsWith('/setting/district') }"> Daerah </Link>
-                                    </li>
-                                    <li class="nav-item">
-                                        <Link :href="route('setting.parish.index')" class="nav-link" :class="{ 'active': $page.url.startsWith('/setting/parish') }"> Mukim </Link>
                                     </li>
                                 </ul>
                             </div>

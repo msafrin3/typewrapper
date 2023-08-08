@@ -39,7 +39,9 @@ Route::get('/', function () {
     return redirect()->route('dashboard');
 });
 
-Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', function() {
+    return Inertia::render('Dashboard');
+})->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     // ADMINISTRATOR
@@ -104,48 +106,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    // SETTINGS
-    // REGIONS
-    Route::prefix('setting')->as('setting.')->group(function() {
-        Route::resource('state', StateController::class);
-        Route::resource('district', DistrictController::class);
-        Route::resource('parish', ParishController::class);
-    })->middleware('roles:superadmin');
-
-    // SHELTERS
-    Route::prefix('shelter')->as('shelter.')->group(function() {
-        Route::get('/', [App\Http\Controllers\ShelterController::class, 'index'])->name('index')->middleware('can:view-pps');
-        Route::get('/create', [App\Http\Controllers\ShelterController::class, 'create'])->name('create')->middleware('can:create-pps');
-        Route::post('/create', [App\Http\Controllers\ShelterController::class, 'store'])->name('store')->middleware('can:create-pps');
-        Route::get('/{shelter}/show', [App\Http\Controllers\ShelterController::class, 'show'])->name('show')->middleware('can:view-pps');
-        Route::get('/{shelter}/edit', [App\Http\Controllers\ShelterController::class, 'edit'])->name('edit')->middleware('can:edit-pps');
-        Route::put('/{shelter}/edit', [App\Http\Controllers\ShelterController::class, 'update'])->name('update')->middleware('can:edit-pps');
-        Route::delete('/{shelter}/delete', [App\Http\Controllers\ShelterController::class, 'destroy'])->name('destroy')->middleware('can:delete-pps');
-    });
-
-    // DISASTER
-    Route::prefix('disaster')->as('disaster.')->group(function() {
-        Route::get('/', [App\Http\Controllers\DisasterController::class, 'index'])->name('index')->middleware('can:view-bencana');
-        Route::get('/create', [App\Http\Controllers\DisasterController::class, 'create'])->name('create')->middleware('can:create-bencana');
-        Route::post('/create', [App\Http\Controllers\DisasterController::class, 'store'])->name('store')->middleware('can:create-bencana');
-        Route::get('/{disaster}/show', [App\Http\Controllers\DisasterController::class, 'show'])->name('show')->middleware('can:view-bencana');
-        Route::get('/{disaster}/edit', [App\Http\Controllers\DisasterController::class, 'edit'])->name('edit')->middleware('can:edit-bencana');
-        Route::put('/{disaster}/edit', [App\Http\Controllers\DisasterController::class, 'update'])->name('update')->middleware('can:edit-bencana');
-        Route::delete('/{disaster}/delete', [App\Http\Controllers\DisasterController::class, 'destroy'])->name('destroy')->middleware('can:delete-bencana');
-
-        Route::prefix('{disaster}/shelter')->as('shelter.')->group(function() {
-            Route::post('/create', [App\Http\Controllers\DisasterShelterController::class, 'store'])->name('store');
-            Route::put('/{shelter}/edit', [App\Http\Controllers\DisasterShelterController::class, 'update'])->name('update');
-        });
-    });
-
-    // REPORT
-    Route::prefix('report')->as('report.')->group(function() {
-        Route::get('/', [App\Http\Controllers\ReportController::class, 'index'])->name('index')->middleware('can:view-laporan-terkini');
-        Route::post('create', [App\Http\Controllers\ReportController::class, 'store'])->name('store')->middleware('can:create-laporan-terkini');
-        Route::get('/{report}', [App\Http\Controllers\ReportController::class, 'show'])->name('show');
-    });
 });
 
 require __DIR__.'/auth.php';
