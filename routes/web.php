@@ -39,11 +39,11 @@ Route::get('/', function () {
     return redirect()->route('dashboard');
 });
 
-Route::get('/dashboard', function() {
-    return Inertia::render('Dashboard');
-})->name('dashboard');
-
 Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', function() {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+    
     // ADMINISTRATOR
     Route::prefix('admin')->as('admin.')->group(function() {
         // USER MANAGEMENT

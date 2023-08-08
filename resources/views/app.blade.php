@@ -62,7 +62,6 @@
         <!-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> -->
 
         <!-- <script src="{{ url('') }}/plugins/leaflet-1.9.4/leaflet.js"></script> -->
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4emNcruKMX0-B7aIQKIrtpm7tv2j_-jQ&libraries=places&v=weekly" defer></script>
     </body>
 
 </html>
