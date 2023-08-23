@@ -9,9 +9,11 @@ let display_text = ref('');
 let count = 0;
 let index_active = 1;
 let correct = 0;
+let incorrect = 0;
 let input = reactive({
     value: null
 });
+let finished = ref(false);
 
 let renderWord = (words) => {
     shuffle(words);
@@ -45,6 +47,7 @@ let checking = (event) => {
             correct++;
         } else {
             setWrong(index_active);
+            incorrect++;
         }
         index_active++;
         input.value = '';
@@ -80,7 +83,7 @@ let reset = () => {
     location.reload();
 }
 
-const timer = ref(60);
+const timer = ref(10);
 const timerIsActive = ref('inactive');
 let intervalId;
 
@@ -103,6 +106,7 @@ const resetTimer = () => {
 let recordResult = () => {
     resetTimer();
     timerIsActive.value = 'stop';
+    $(".words-content").html('');
     alert('Your score is: ' + correct + ' wpm');
 }
 
@@ -124,6 +128,7 @@ onMounted(() => {
     setTimeout(function() {
         setActive(index_active);
     }, 500);
+    $(".form-control").focus();
 });
 
 </script>
@@ -314,7 +319,7 @@ onMounted(() => {
 
                     <div class="d-flex gap-2">
                         <input type="text" class="form-control fs-17" placeholder="Start typing..." v-model="input.value" @keyup="checking">
-                        <div class="d-flex align-items-center bg-light rounded-3 height-100 p-2 fs-17" v-if="timerIsActive == 'inactive'">01:00</div>
+                        <div class="d-flex align-items-center bg-light rounded-3 height-100 p-2 fs-17" v-if="timerIsActive == 'inactive' || timerIsActive == 'stop'">01:00</div>
                         <div class="d-flex align-items-center bg-light rounded-3 height-100 p-2 fs-17" v-else>00:{{ timer.toString().padStart(2, '0') }}</div>
                         <button type="button" class="btn btn-secondary" @click="reset"><i class="ri-refresh-line"></i></button>
                     </div>

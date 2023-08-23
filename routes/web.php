@@ -25,11 +25,13 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/register', function() {
-    return redirect()->route('dashboard');
-});
+Route::get('/testimage', [App\Http\Controllers\DummyController::class, 'testimage']);
+Route::get('/testcommand', [App\Http\Controllers\DummyController::class, 'runCommand']);
 
-Route::get('/', [App\Http\Controllers\DefaultController::class, 'index'])->name('welcome');
+Route::get('/register', function() {
+    return redirect()->route('type.index');
+});
+Route::get('/', [App\Http\Controllers\TypeController::class, 'index'])->name('type.index');
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function() {
