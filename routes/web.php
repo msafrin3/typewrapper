@@ -29,15 +29,7 @@ Route::get('/register', function() {
     return redirect()->route('dashboard');
 });
 
-Route::get('/', function () {
-    // return Inertia::render('Welcome', [
-    //     'canLogin' => Route::has('login'),
-    //     'canRegister' => Route::has('register'),
-    //     'laravelVersion' => Application::VERSION,
-    //     'phpVersion' => PHP_VERSION,
-    // ]);
-    return redirect()->route('dashboard');
-});
+Route::get('/', [App\Http\Controllers\DefaultController::class, 'index'])->name('welcome');
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function() {
