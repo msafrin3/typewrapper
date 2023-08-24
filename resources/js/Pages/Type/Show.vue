@@ -7,11 +7,9 @@ const props = defineProps({
     result: Object
 });
 
-onMounted(() => {
-    $("meta[name='image]").attr('content', route('type.index') + props.result.screenshot);
-    $("meta[property='og:title']").attr('content', 'Wow I can type ' + props.result.correct + ' WPM. How about you?');
-    $("meta[property='og:image']").attr('content', route('type.index') + props.result.screenshot);
-});
+$("meta[name='image]").attr('content', route('type.index') + props.result.screenshot);
+$("meta[property='og:title']").attr('content', 'Wow I can type ' + props.result.correct + ' WPM. How about you?');
+$("meta[property='og:image']").attr('content', route('type.index') + props.result.screenshot);
 
 </script>
 
