@@ -10,7 +10,7 @@
         <meta property="og:title" content="Welcome To TypeRapper" />
         <meta property="og:type" content="game" />
         <meta property="og:description" content="Get your typing speed and compete with your friends now." />
-        <meta property="og:image" content="" />
+        <meta property="og:image" content="https://typerapper.msafrin.net/storage/result/64e72bad9dc31.png" />
 
         <meta content="Get your typing speed and compete with your friends now." name="description" />
         <meta content="" name="image" />
