@@ -109,7 +109,7 @@ let reset = () => {
     finished.value = false;
 }
 
-const timer = ref(10);
+const timer = ref(60);
 const timerIsActive = ref('inactive');
 let intervalId;
 
@@ -124,7 +124,7 @@ const startTimer = () => {
 }
 
 const resetTimer = () => {
-    timer.value = 10;
+    timer.value = 60;
     timerIsActive.value = 'inactive';
     clearInterval(intervalId);
 }
