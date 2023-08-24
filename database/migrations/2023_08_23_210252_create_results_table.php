@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('result_id');
             $table->foreignId('user_id')->nullable()->constrained('users');
-            $table->integer('wpm')->default(0);
+            $table->integer('count')->default(0);
             $table->integer('correct')->default(0);
             $table->integer('incorrect')->default(0);
             $table->string('screenshot')->nullable();

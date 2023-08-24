@@ -1,7 +1,12 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import { onMounted, reactive, ref } from 'vue';
-import MainLayout from '../../Layouts/MainLayout.vue';
+import MainLayout from '@/Layouts/MainLayout.vue';
+import Swal from 'sweetalert2';
+
+const props = defineProps({
+    result: Object
+});
 
 let text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap into electronic typesetting remaining essentially unchanged It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap into electronic typesetting remaining essentially unchanged It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap into electronic typesetting remaining essentially unchanged It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap into electronic typesetting remaining essentially unchanged It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap into electronic typesetting remaining essentially unchanged It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap into electronic typesetting remaining essentially unchanged It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum";
 let limit_text = 70;
@@ -15,6 +20,13 @@ let input = reactive({
     value: null
 });
 let finished = ref(false);
+
+let data = reactive({
+    result_id: null,
+    count: 0,
+    correct: 0,
+    incorrect: 0
+});
 
 let renderWord = (words) => {
     shuffle(words);
@@ -41,14 +53,15 @@ let checking = (event) => {
         setActive(index_active);
     }
     // if spacebare is pressed
-    if(event.key == ' ') {
+    if(event.key === ' ') {
         text = text.trim();
         if(text === word) {
             setCorrect(index_active);
-            correct++;
+            data.correct++;
         } else {
+            console.log('wrong');
             setWrong(index_active);
-            incorrect++;
+            data.incorrect++;
         }
         index_active++;
         input.value = '';
@@ -61,6 +74,7 @@ let checking = (event) => {
             $(".word").removeClass('text-danger text-success');
         }
         setActive(index_active);
+        data.count++;
     }
 }
 
@@ -83,14 +97,16 @@ let setWrong = (index) => {
 let reset = () => {
     $(".words-content").html('');
     display_text.value = '';
-    correct = 0;
-    incorrect = 0;
+    data.count = 0;
+    data.correct = 0;
+    data.incorrect = 0;
     count = 0;
     index_active = 1;
     renderWord(array_text);
     input.value = '';
     $(".form-control").focus();
     resetTimer();
+    finished.value = false;
 }
 
 const timer = ref(10);
@@ -117,8 +133,7 @@ let recordResult = () => {
     resetTimer();
     timerIsActive.value = 'stop';
     $(".words-content").html('');
-    finished.value = true;
-    alert('Your score is: ' + correct + ' wpm');
+    saveResult();
 }
 
 let shuffle = (array) => {
@@ -132,6 +147,18 @@ let strPadLeft = (inputString, padLength, padCharacter) => {
     const paddingLength = Math.max(0, padLength - inputString.length);
     const padding = padCharacter.repeat(paddingLength);
     return padding + inputString;
+}
+
+let saveResult = () => {
+    router.post(route('type.store'), data, {
+        onSuccess: (response) => {
+            finished.value = true;
+            if(response.props.response.success) {
+                Swal.fire('Congratulation!', 'Your score is ' + data.correct + ' WPM', 'success');
+                data.result_id = response.props.response.success;
+            }
+        }
+    });
 }
 
 onMounted(() => {
@@ -178,23 +205,28 @@ onMounted(() => {
             <div class="col-md-4" v-if="finished">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title mb-0">Result</h3>
+                        <h3 class="card-title mb-0">Result: {{ data.result_id }}</h3>
                     </div>
                     <div class="card-body">
-                        <h1 class="text-center">{{ correct }} WPM</h1>
+                        <h1 class="text-center">{{ data.correct }} WPM</h1>
                         <div class="text-center"><small>(words per minute)</small></div>
                         <table class="table">
                             <tbody>
                                 <tr>
                                     <th>Correct Words</th>
-                                    <td align="right" class="text-success">{{ correct }}</td>
+                                    <td align="right" class="text-success">{{ data.correct }}</td>
                                 </tr>
                                 <tr>
                                     <th>Wrong Words</th>
-                                    <td align="right" class="text-danger">{{ incorrect }}</td>
+                                    <td align="right" class="text-danger">{{ data.incorrect }}</td>
                                 </tr>
                             </tbody>
                         </table>
+                        <div class="d-grid gap-2 mt-4">
+                            <div>Share your result with others: </div>
+                            <Link class="btn btn-secondary"><i class="ri-facebook-circle-fill align-bottom fs-15"></i> Facebook</Link>
+                            <Link class="btn btn-info"><i class="ri-twitter-fill align-bottom fs-15"></i> Twitter</Link>
+                        </div>
                     </div>
                 </div>
             </div>

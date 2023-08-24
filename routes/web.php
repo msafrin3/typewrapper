@@ -32,6 +32,9 @@ Route::get('/register', function() {
     return redirect()->route('type.index');
 });
 Route::get('/', [App\Http\Controllers\TypeController::class, 'index'])->name('type.index');
+Route::post('result', [App\Http\Controllers\TypeController::class, 'store'])->name('type.store');
+Route::get('result/{result_id}', [App\Http\Controllers\TypeController::class, 'show'])->name('type.show');
+Route::get('result/screenshot/{result_id}', [App\Http\Controllers\TypeController::class, 'screenshot'])->name('type.screenshot');
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function() {

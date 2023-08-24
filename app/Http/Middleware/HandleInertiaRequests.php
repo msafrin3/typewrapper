@@ -51,7 +51,8 @@ class HandleInertiaRequests extends Middleware
             },
             'response' => [
                 'success' => fn () => $request->session()->get('success'),
-                'error' => fn () => $request->session()->get('error')
+                'error' => fn () => $request->session()->get('error'),
+                'data' => []
             ],
             'protocol' => in_array(config('app.env'), ['staging', 'production']) ? 'https' : 'http'
         ]);

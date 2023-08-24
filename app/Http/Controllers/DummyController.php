@@ -16,11 +16,11 @@ class DummyController extends Controller
     public function runCommand()
     {
         $file_name = uniqid();
-        $url = url('').'/testimage';
+        $url = url('').'/result/screenshot/64e704f58b0d9';
         $output_path = storage_path().'/app/public/result/'.$file_name.'.jpg';
         $path = env('WKHTML_IMG_BINARY');
         // $output_path = "/Users/safrin/Projects/Personal/typerapper/resources/views/images/images.jpg";
-        $command = "$path --width 400 --height 400 $url $output_path > debug.log 2>&1";
+        $command = "$path --width 400 --height 350 $url $output_path > debug.log 2>&1";
         echo shell_exec($command);
     }
 

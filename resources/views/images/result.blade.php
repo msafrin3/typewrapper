@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Title of the document</title>
+        <title>Your Response is {{ $result->correct }} WPM</title>
         <!-- Bootstrap Css -->
         <!-- <link href="{{ url('') }}/assets/css/bootstrap.css" rel="stylesheet" type="text/css" /> -->
     </head>
@@ -12,16 +12,19 @@
         }
         body {
             width: 400px;
-            height: 400px;
+            height: 350px;
+            background-color: #020912;
+            color: white;
         }
         .card {
-            border: 1px solid #e6e6e6;
+            border: 1px solid #2a4562;
             border-radius: 6px;
         }
         .card-header {
             border-top-right-radius: 6px;
             border-top-left-radius: 6px;
-            background: #4360a3;
+            border-bottom: 1px solid #2a4562;
+            /* background: #4360a3; */
             color: white;
             padding: 1rem;
             font-size: 20px;
@@ -29,7 +32,7 @@
         }
         .card-body {
             padding: 10px;
-            background: #f6f6f6;
+            /* background: #f6f6f6; */
         }
         .text-center {
             text-align: center;
@@ -37,7 +40,7 @@
         .result-label {
             font-size: 47px;
             font-weight: 600;
-            color: #276727;
+            /* color: #276727; */
             text-shadow: 1px 1px 1px #111613;
         }
         .mt-3 {
@@ -60,7 +63,7 @@
             background-color: white;
         } */
         .text-success {
-            color: green;
+            color: #40bb82;
         }
         .text-danger {
             color: red;
@@ -70,17 +73,17 @@
         <div class="card">
             <div class="card-header">Your Performance</div>
             <div class="card-body">
-                <div class="text-center result-label">{{ $correct }} WPM</div>
+                <div class="text-center result-label">{{ $result->correct }} WPM</div>
                 <div class="text-center"><small>(words per minute)</small></div>
                 <table class="table table-borderless table-striped mt-3">
                     <tbody>
                         <tr>
                             <td>Correct Words</td>
-                            <td align="right" class="text-success">{{ $correct }}</td>
+                            <td align="right" class="text-success">{{ $result->correct }}</td>
                         </tr>
                         <tr>
                             <td>Wrong Words</td>
-                            <td align="right" class="text-danger">{{ $incorrect }}</td>
+                            <td align="right" class="text-danger">{{ $result->incorrect }}</td>
                         </tr>
                     </tbody>
                 </table>

@@ -6,8 +6,15 @@
         <meta charset="utf-8" />
         <title inertia>{{ config('app.name') }}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
-        <meta content="Themesbrand" name="author" />
+
+        <meta property="og:title" content="Welcome To TypeRapper" />
+        <meta property="og:type" content="game" />
+        <meta property="og:description" content="Get your typing speed and compete with your friends now." />
+        <meta property="og:image" content="" />
+
+        <meta content="Get your typing speed and compete with your friends now." name="description" />
+        <meta content="" name="image" />
+        <meta content="Safrin" name="author" />
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{ url('') }}/assets/images/favicon.ico">
 
