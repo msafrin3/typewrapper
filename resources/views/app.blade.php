@@ -11,6 +11,9 @@
         <meta property="og:type" content="game" />
         <meta property="og:description" content="Get your typing speed and compete with your friends now." />
         <meta property="og:image" content="https://typerapper.msafrin.net/storage/result/64e72bad9dc31.png" />
+        <link href="https://typerapper.msafrin.net/storage/result/64e72bad9dc31.png" rel="image_src"/>
+        <meta property="og:image:width" content="400"/>
+        <meta property="og:image:height" content="350"/>
 
         <meta content="Get your typing speed and compete with your friends now." name="description" />
         <meta content="https://typerapper.msafrin.net/storage/result/64e72bad9dc31.png" name="image" />
