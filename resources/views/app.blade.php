@@ -13,7 +13,7 @@
         <meta property="og:image" content="https://typerapper.msafrin.net/storage/result/64e72bad9dc31.png" />
 
         <meta content="Get your typing speed and compete with your friends now." name="description" />
-        <meta content="" name="image" />
+        <meta content="https://typerapper.msafrin.net/storage/result/64e72bad9dc31.png" name="image" />
         <meta content="Safrin" name="author" />
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{ url('') }}/assets/images/favicon.ico">
