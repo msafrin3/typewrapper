@@ -21,7 +21,7 @@
         <meta content="Get your typing speed and compete with your friends now." name="description" />
         <meta content="Safrin" name="author" />
         <!-- App favicon -->
-        <link rel="shortcut icon" href="{{ url('') }}/images/64ec21ce10b2d.png">
+        <link rel="shortcut icon" href="{{ url('') }}/assets/images/favicon.ico">
 
         <!-- Layout config Js -->
         <script src="{{ url('') }}/assets/js/layout.js"></script>
