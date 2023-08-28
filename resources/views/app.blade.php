@@ -12,7 +12,7 @@
         <meta property="og:description" content="Get your typing speed and compete with your friends now." />
         <meta property="og:image" content="https://typerapper.msafrin.net/storage/result/64e72bad9dc31.png" />
         <link href="https://typerapper.msafrin.net/storage/result/64e72bad9dc31.png" rel="image_src"/>
-        <link rel="icon" type="image/png" href="{{ url('') }}/images/64ec21ce10b2d.png" />
+        <link rel="icon" type="image/png" href="{{ url('') }}/images/marker-icon.png" />
         <meta property="og:image:width" content="400"/>
         <meta property="og:image:height" content="350"/>
 
