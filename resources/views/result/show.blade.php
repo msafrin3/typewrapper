@@ -12,6 +12,7 @@
         <meta name="og:image" content="{{ url('') }}/images/64ec21ce10b2d.png" />
 
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="{{ url('') }}/result/{{ $result->result_id }}" />
         <meta name="twitter:site" content="@msafrin3" />
         <meta name="twitter:title" content="Wow I can type {{ $result->correct }} WPM. How about you?" />
         <meta name="twitter:description" content="Get your typing speed and compete with your friends now." />
