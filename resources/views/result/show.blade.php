@@ -7,6 +7,10 @@
         <title>Wow I can type {{ $result->correct }} WPM. How about you?</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+        <meta name="og:title" content="Wow I can type {{ $result->correct }} WPM. How about you?" />
+        <meta name="og:description" content="Get your typing speed and compete with your friends now." />
+        <meta name="og:image" content="{{ url('') }}/images/64ec21ce10b2d.png" />
+
         <meta content="Get your typing speed and compete with your friends now." name="description" />
         <meta content="Safrin" name="author" />
         <!-- App favicon -->
