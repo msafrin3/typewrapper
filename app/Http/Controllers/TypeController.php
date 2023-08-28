@@ -35,7 +35,8 @@ class TypeController extends Controller
     public function show($result_id)
     {
         $result = Result::where('result_id', $result_id)->first();
-        return Inertia::render('Type/Show', ['result' => $result]);
+        // return Inertia::render('Type/Show', ['result' => $result]);
+        return view('result.show', ['result' => $result]);
     }
 
     public function screenshot($result_id)
