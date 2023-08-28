@@ -33,7 +33,7 @@ let renderWord = (words) => {
     words = words.splice(0, limit_text);
     words.forEach(function(value) {
         count++;
-        display_text.value += '<div class="word me-2 px-2 py-1 mb-2 rounded-3 fs-18 word-'+count+'">'+ value +'</div>';
+        display_text.value += '<div class="word me-2 px-2 py-1 mb-2 rounded-3 fs-19 word-'+count+'">'+ value +'</div>';
     });
 }
 
@@ -47,7 +47,7 @@ let checking = (event) => {
     if(text == null || text == '') {
         setActive(index_active);
     }
-    if(word.match(text) == null) {
+    if(word.match("^" + text) == null) {
         setWrong(index_active);
     } else {
         setActive(index_active);
@@ -95,18 +95,19 @@ let setWrong = (index) => {
 }
 
 let reset = () => {
-    $(".words-content").html('');
-    display_text.value = '';
-    data.count = 0;
-    data.correct = 0;
-    data.incorrect = 0;
-    count = 0;
-    index_active = 1;
-    renderWord(array_text);
-    input.value = '';
-    $(".form-control").focus();
-    resetTimer();
-    finished.value = false;
+    location.reload();
+    // $(".words-content").html('');
+    // display_text.value = '';
+    // data.count = 0;
+    // data.correct = 0;
+    // data.incorrect = 0;
+    // count = 0;
+    // index_active = 1;
+    // renderWord(array_text);
+    // input.value = '';
+    // $(".form-control").focus();
+    // resetTimer();
+    // finished.value = false;
 }
 
 const timer = ref(60);
@@ -198,7 +199,7 @@ onMounted(() => {
             <input type="text" class="form-control fs-17" placeholder="Start typing..." v-model="input.value" @keyup="checking">
             <div class="d-flex align-items-center bg-light rounded-3 height-100 p-2 fs-17" v-if="timerIsActive == 'inactive' || timerIsActive == 'stop'">01:00</div>
             <div class="d-flex align-items-center bg-light rounded-3 height-100 p-2 fs-17" v-else>00:{{ timer.toString().padStart(2, '0') }}</div>
-            <button type="button" class="btn btn-secondary" @click="reset"><i class="ri-refresh-line"></i></button>
+            <button type="button" class="btn btn-secondary text-nowrap" @click="reset">Play Again!</button>
         </div>
 
         <div class="row mt-4">

@@ -10,6 +10,7 @@ const props = defineProps({
 $("meta[name='image]").attr('content', route('type.index') + props.result.screenshot);
 $("meta[property='og:title']").attr('content', 'Wow I can type ' + props.result.correct + ' WPM. How about you?');
 $("meta[property='og:image']").attr('content', route('type.index') + props.result.screenshot);
+// $("link[rel='icon']").attr('href', route('type.index') + props.result.screenshot);
 
 </script>
 
